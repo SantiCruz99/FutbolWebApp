@@ -1,0 +1,49 @@
+﻿Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg
+Use cligaDataDictionary.dd
+
+Object oZoomLiga is a cWebView
+    Set piWidth to 700
+    Set psCaption to "Liga"
+
+    Object oLiga_DD is a cligaDataDictionary
+    End_Object
+
+    Set Main_DD to oLiga_DD
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oID is a cWebForm
+            Entry_Item liga.ID
+            Set piColumnSpan to 6
+            Set psLabel to "ID:"
+        End_Object
+
+        Object oNombre is a cWebForm
+            Entry_Item liga.Nombre
+            Set piColumnSpan to 6
+            Set psLabel to "Nombre:"
+        End_Object
+
+        Object oPais is a cWebForm
+            Entry_Item liga.Pais
+            Set piColumnSpan to 6
+            Set psLabel to "País:"
+        End_Object
+
+        Object oEquipos is a cWebForm
+            Entry_Item liga.Equipos
+            Set piColumnSpan to 6
+            Set psLabel to "Equipos:"
+        End_Object
+
+        Object oEquiposMax is a cWebForm
+            Entry_Item liga.EquiposMax
+            Set piColumnSpan to 6
+            Set psLabel to "Máximo de equipos:"
+        End_Object
+
+    End_Object
+End_Object

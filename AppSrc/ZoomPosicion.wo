@@ -1,0 +1,31 @@
+﻿Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebForm.pkg
+Use cposicionDataDictionary.dd
+
+Object oZoomPosicion is a cWebView
+    Set piWidth to 700
+    Set psCaption to "Posición"
+
+    Object oPosicion_DD is a cposicionDataDictionary
+    End_Object
+
+    Set Main_DD to oPosicion_DD
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oID is a cWebForm
+            Entry_Item posicion.ID
+            Set piColumnSpan to 6
+            Set psLabel to "ID:"
+        End_Object
+
+        Object oNombre is a cWebForm
+            Entry_Item posicion.Nombre
+            Set piColumnSpan to 6
+            Set psLabel to "Nombre:"
+        End_Object
+
+    End_Object
+End_Object

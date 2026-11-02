@@ -1,0 +1,13 @@
+# Archivos compilados
+Programs/*.exe
+Programs/*.wso
+Programs/*.ws
+Programs/*.err
+
+# Archivos temporales
+*.tmp
+*.bak
+*.log
+
+# Archivos de Visual Studio
+.vs/

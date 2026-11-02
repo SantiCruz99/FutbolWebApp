@@ -1,0 +1,48 @@
+﻿Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebList.pkg
+Use cWebColumn.pkg
+Use cequipoDataDictionary.dd
+
+Object oSelectEquipo is a cWebView
+    Set piWidth to 800
+    Set psCaption to "Seleccionar Equipo"
+
+    Object oEquipo_DD is a cequipoDataDictionary
+    End_Object
+
+    Set Main_DD to oEquipo_DD
+
+    Procedure OnLoad
+        Forward Send OnLoad
+        Send Find of oEquipo_DD FIRST_RECORD 1
+    End_Procedure
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oEquipoList is a cWebList
+            Set piColumnSpan to 12
+            Set pbFillHeight to True
+            Set Server to oEquipo_DD
+
+            Object oID is a cWebColumn
+                Entry_Item equipo.ID
+                Set psCaption to "ID"
+                Set piWidth to 20
+            End_Object
+
+            Object oNombre is a cWebColumn
+                Entry_Item equipo.Nombre
+                Set psCaption to "Nombre"
+                Set piWidth to 50
+            End_Object
+
+            Object oLigaID is a cWebColumn
+                Entry_Item equipo.LigaID
+                Set psCaption to "Liga ID"
+                Set piWidth to 30
+            End_Object
+        End_Object
+    End_Object
+End_Object

@@ -1,0 +1,52 @@
+[Workspace]
+CurrentProject=WebApp.src
+Location=C:\DataFlex Projects\FutbolWebApp\IdeSrc\HP_Studio.dsk
+CreateNew=3
+[TabWindows]
+GroupCount=1
+HorizontalGroups=1
+[TabGroup0]
+GroupSize=40
+SelectedTab=2
+[Window0]
+Filename=C:\DataFlex Projects\FutbolWebApp\DDSrc\centrenadorDataDictionary.dd
+ViewType=1
+Top=31
+Left=0
+Bottom=427
+Right=1352
+CursorLine=22
+CursorColumn=0
+TabIndex=3
+TabGroup=0
+[Window1]
+Filename=Workspace Dashboard
+ViewType=101
+Top=31
+Left=0
+Bottom=427
+Right=1352
+TabIndex=0
+TabGroup=0
+[Window2]
+Filename=C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
+ViewType=1
+Top=31
+Left=0
+Bottom=427
+Right=1352
+CursorLine=231
+CursorColumn=4
+TabIndex=1
+TabGroup=0
+[Window3]
+Filename=C:\DataFlex Projects\FutbolWebApp\AppSrc\Dashboard.wo
+ViewType=1
+Top=31
+Left=0
+Bottom=427
+Right=1352
+CursorLine=107
+CursorColumn=38
+TabIndex=2
+TabGroup=0

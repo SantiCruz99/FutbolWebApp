@@ -1,0 +1,62 @@
+﻿
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebList.pkg
+Use cWebColumn.pkg
+Use cjugadorDataDictionary.dd
+
+Object oSelectJugador is a cWebView
+    Set piWidth to 900
+    Set psCaption to "Seleccionar Jugador"
+
+    Object oJugador_DD is a cjugadorDataDictionary
+    End_Object
+
+    Set Main_DD to oJugador_DD
+
+    Procedure OnLoad
+        Forward Send OnLoad
+        Send Find of oJugador_DD FIRST_RECORD 1
+    End_Procedure
+
+    Object oWebMainPanel is a cWebPanel
+        Set piColumnCount to 12
+
+        Object oJugadorList is a cWebList
+            Set piColumnSpan to 12
+            Set pbFillHeight to True
+            Set Server to oJugador_DD
+
+            Object oID is a cWebColumn
+                Entry_Item jugador.ID
+                Set psCaption to "ID"
+                Set piWidth to 10
+            End_Object
+
+            Object oNombre is a cWebColumn
+                Entry_Item jugador.Nombre
+                Set psCaption to "Nombre"
+                Set piWidth to 25
+            End_Object
+
+            Object oApellido is a cWebColumn
+                Entry_Item jugador.Apellido
+                Set psCaption to "Apellido"
+                Set piWidth to 25
+            End_Object
+
+            Object oNacionalidad is a cWebColumn
+                Entry_Item jugador.Nacionalidad
+                Set psCaption to "Nacionalidad"
+                Set piWidth to 20
+            End_Object
+
+            Object oEquipoID is a cWebColumn
+                Entry_Item jugador.EquipoID
+                Set psCaption to "Equipo ID"
+                Set piWidth to 20
+            End_Object
+
+        End_Object
+    End_Object
+End_Object
