@@ -5,7 +5,7 @@ Use cWebColumn.pkg
 Use cposicionDataDictionary.dd
 
 Object oSelectPosicion is a cWebView
-    Set piWidth to 700
+    Set piWidth to 500
     Set psCaption to "Seleccionar Posición"
 
     Object oPosicion_DD is a cposicionDataDictionary
@@ -29,7 +29,7 @@ Object oSelectPosicion is a cWebView
             Object oID is a cWebColumn
                 Entry_Item posicion.ID
                 Set psCaption to "ID"
-                Set piWidth to 30
+                Set piWidth to 15
             End_Object
 
             Object oNombre is a cWebColumn
