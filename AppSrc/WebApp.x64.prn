@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 16448905216
+Memory Available: 16266248192
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -2145,7 +2145,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 37996>>>
 37996>>>Object oSelectLiga is a cWebView
 37998>>>    Set piWidth to 700
-37999>>>    Set psCaption to "seleccionar liga"
+37999>>>    Set psCaption to "Seleccionar liga"
 38000>>>
 38000>>>    // Your DDO structure will go here
 38000>>>
@@ -2157,7 +2157,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 38003>>>        
 38003>>>        Object oForm is a cWebForm
 38005>>>            Set piColumnSpan to 0
-38006>>>            Set psLabel to "Label 1:"
+38006>>>            Set psLabel to "Liga 1:"
 38007>>>        End_Object
 38008>>>        
 38008>>>    End_Object 
@@ -2171,7 +2171,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 38012>Send StartWebApp of oWebApp
 38013>
 Summary
-Memory Available: 16428498944
+Memory Available: 16258969600
 Total Warnings : 0
 Total Errors   : 0
 Total Symbols  : 25331
@@ -2179,6 +2179,6 @@ Total Resources: 0
 Total Commands : 38012
 Total Windows  : 0
 Total Pages    : 0
-Static Data    : 472803
+Static Data    : 472801
 Message area   : 252967
 Total Blocks   : 16988
