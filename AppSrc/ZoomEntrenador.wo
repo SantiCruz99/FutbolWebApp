@@ -16,7 +16,7 @@ Object oZoomEntrenador is a cWebView
         
         Object oForm is a cWebForm
             Set piColumnSpan to 0
-            Set psLabel to "Label 1:"
+            Set psLabel to "Nombre:"
         End_Object
         
     End_Object 
