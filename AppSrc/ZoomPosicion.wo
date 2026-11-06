@@ -4,7 +4,7 @@ Use cWebForm.pkg
 Use cposicionDataDictionary.dd
 
 Object oZoomPosicion is a cWebView
-    Set piWidth to 700
+    Set piWidth to 900
     Set psCaption to "Posición"
 
     Object oPosicion_DD is a cposicionDataDictionary
