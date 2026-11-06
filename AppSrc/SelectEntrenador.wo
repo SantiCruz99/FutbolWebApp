@@ -5,7 +5,7 @@ Use cWebColumn.pkg
 Use centrenadorDataDictionary.dd
 
 Object oSelectEntrenador is a cWebView
-    Set piWidth to 900
+    Set piWidth to 600
     Set psCaption to "Seleccionar Entrenador"
 
     Object oEntrenador_DD is a centrenadorDataDictionary

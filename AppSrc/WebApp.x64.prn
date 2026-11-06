@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 9199644672
+Memory Available: 14717640704
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -1926,7 +1926,7 @@ Including file: centrenadorDataDictionary.dd    (C:\DataFlex Projects\FutbolWebA
 37801>>>>>End_Class
 37802>>>
 37802>>>Object oSelectEntrenador is a cWebView
-37804>>>    Set piWidth to 900
+37804>>>    Set piWidth to 600
 37805>>>    Set psCaption to "Seleccionar Entrenador"
 37806>>>
 37806>>>    Object oEntrenador_DD is a centrenadorDataDictionary
@@ -2171,7 +2171,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 38012>Send StartWebApp of oWebApp
 38013>
 Summary
-Memory Available: 9192202240
+Memory Available: 14716731392
 Total Warnings : 0
 Total Errors   : 0
 Total Symbols  : 25331
