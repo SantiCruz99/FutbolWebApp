@@ -22,7 +22,7 @@ Object oSelectEquipo is a cWebView
         Set piColumnCount to 12
 
         Object oEquipoList is a cWebList
-            Set piColumnSpan to 12
+            Set piColumnSpan to 8
             Set pbFillHeight to True
             Set Server to oEquipo_DD
 
