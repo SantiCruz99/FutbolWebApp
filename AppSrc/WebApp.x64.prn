@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 16347975680
+Memory Available: 14091444224
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -1595,590 +1595,647 @@ Including file: Dashboard.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Dashbo
 Including file: ZoomEntrenador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomEntrenador.wo)
 37552>>>Use cWebView.pkg
 37552>>>Use cWebPanel.pkg
-37552>>>Use cWebForm.pkg 
-37552>>>
-37552>>>Object oZoomEntrenador is a cWebView
-37554>>>    Set piWidth to 700
-37555>>>    Set psCaption to "Entrenador"
-37556>>>
-37556>>>    // Your DDO structure will go here
-37556>>>
-37556>>>    Object oWebMainPanel is a cWebPanel
-37558>>>        Set piColumnCount to 12
-37559>>>        
-37559>>>        // place controls here
-37559>>>        // Your view will grow as controls are added
-37559>>>        
-37559>>>        Object oForm is a cWebForm
-37561>>>            Set piColumnSpan to 0
-37562>>>            Set psLabel to "Label 1:"
-37563>>>        End_Object
-37564>>>        
-37564>>>    End_Object 
-37565>>>
-37565>>>End_Object
-37566>    Use ZoomJugador.wo
-Including file: ZoomJugador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomJugador.wo)
-37566>>>Use cWebView.pkg
-37566>>>Use cWebPanel.pkg
-37566>>>Use cWebForm.pkg
-37566>>>Use cjugadorDataDictionary.dd
-Including file: cjugadorDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\cjugadorDataDictionary.dd)
-37566>>>>>Use DataDict.pkg
-37566>>>>>
-37566>>>>>Open jugador
-Including file: jugador.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\jugador.fd)
-37568>>>>>Open jugadorposicion
-Including file: jugadorposicion.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\jugadorposicion.fd)
-37570>>>>>Open equipo
-Including file: equipo.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\equipo.fd)
-37572>>>>>
-37572>>>>>Class cjugadorDataDictionary is a DataDictionary
-37573>>>>>    
-37573>>>>>    Procedure Construct_Object
-37575>>>>>        Forward Send Construct_Object
-37577>>>>>        Set Main_File to jugador.File_Number
-37578>>>>>
-37578>>>>>        Set Add_Server_File to equipo.File_Number
-37579>>>>>
-37579>>>>>        Set Add_Client_File to jugadorposicion.File_Number
-37580>>>>>
-37580>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
-37581>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
-37582>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
-37583>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
-37584>>>>>
-37584>>>>>    End_Procedure
-37585>>>>>
-37585>>>>>End_Class
-37586>>>
-37586>>>Object oZoomJugador is a cWebView
-37588>>>    Set piWidth to 700
-37589>>>    Set psCaption to "Jugador"
-37590>>>
-37590>>>    Object oJugador_DD is a cjugadorDataDictionary
-37592>>>    End_Object
-37593>>>
-37593>>>    Set Main_DD to oJugador_DD
-37594>>>
-37594>>>    Object oWebMainPanel is a cWebPanel
-37596>>>        Set piColumnCount to 12
-37597>>>
-37597>>>        Object oID is a cWebForm
-37599>>>            Entry_Item jugador.ID
-37600>>>            Set piColumnSpan to 6
-37601>>>            Set psLabel to "ID:"
-37602>>>        End_Object
-37603>>>
-37603>>>        Object oNombre is a cWebForm
-37605>>>            Entry_Item jugador.Nombre
-37606>>>            Set piColumnSpan to 6
-37607>>>            Set psLabel to "Nombre:"
-37608>>>        End_Object
-37609>>>
-37609>>>        Object oApellido is a cWebForm
-37611>>>            Entry_Item jugador.Apellido
-37612>>>            Set piColumnSpan to 6
-37613>>>            Set psLabel to "Apellido:"
-37614>>>        End_Object
-37615>>>
-37615>>>        Object oNacionalidad is a cWebForm
-37617>>>            Entry_Item jugador.Nacionalidad
-37618>>>            Set piColumnSpan to 6
-37619>>>            Set psLabel to "Nacionalidad:"
-37620>>>        End_Object
-37621>>>
-37621>>>        Object oEquipoID is a cWebForm
-37623>>>            Entry_Item jugador.EquipoID
-37624>>>            Set piColumnSpan to 6
-37625>>>            Set psLabel to "Equipo:"
-37626>>>        End_Object
-37627>>>
-37627>>>    End_Object
-37628>>>End_Object
-37629>    Use ZoomPosicion.wo
-Including file: ZoomPosicion.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomPosicion.wo)
-37629>>>Use cWebView.pkg
-37629>>>Use cWebPanel.pkg
-37629>>>Use cWebForm.pkg
-37629>>>Use cposicionDataDictionary.dd
-Including file: cposicionDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\cposicionDataDictionary.dd)
-37629>>>>>Use DataDict.pkg
-37629>>>>>
-37629>>>>>Open posicion
-Including file: posicion.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\posicion.fd)
-37631>>>>>Open jugadorposicion
-37633>>>>>
-37633>>>>>Class cposicionDataDictionary is a DataDictionary
-37634>>>>>    
-37634>>>>>    Procedure Construct_Object
-37636>>>>>        Forward Send Construct_Object
-37638>>>>>        Set Main_File to posicion.File_Number
-37639>>>>>
-37639>>>>>        Set Add_Client_File to jugadorposicion.File_Number
-37640>>>>>
-37640>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
-37641>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
-37642>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
-37643>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
-37644>>>>>
-37644>>>>>    End_Procedure
-37645>>>>>
-37645>>>>>End_Class
-37646>>>
-37646>>>Object oZoomPosicion is a cWebView
-37648>>>    Set piWidth to 700
-37649>>>    Set psCaption to "Posición"
-37650>>>
-37650>>>    Object oPosicion_DD is a cposicionDataDictionary
-37652>>>    End_Object
-37653>>>
-37653>>>    Set Main_DD to oPosicion_DD
-37654>>>
-37654>>>    Object oWebMainPanel is a cWebPanel
-37656>>>        Set piColumnCount to 12
-37657>>>
-37657>>>        Object oID is a cWebForm
-37659>>>            Entry_Item posicion.ID
-37660>>>            Set piColumnSpan to 6
-37661>>>            Set psLabel to "ID:"
-37662>>>        End_Object
-37663>>>
-37663>>>        Object oNombre is a cWebForm
-37665>>>            Entry_Item posicion.Nombre
-37666>>>            Set piColumnSpan to 6
-37667>>>            Set psLabel to "Nombre:"
-37668>>>        End_Object
-37669>>>
-37669>>>    End_Object
-37670>>>End_Object
-37671>    Use ZoomEquipo.wo
-Including file: ZoomEquipo.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomEquipo.wo)
-37671>>>Use cWebView.pkg
-37671>>>Use cWebPanel.pkg
-37671>>>Use cWebForm.pkg
-37671>>>Use cequipoDataDictionary.dd
-Including file: cequipoDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\cequipoDataDictionary.dd)
-37671>>>>>Use DataDict.pkg
-37671>>>>>
-37671>>>>>Open equipo
-37673>>>>>Open entrenador
-Including file: entrenador.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\entrenador.fd)
-37675>>>>>Open jugador
-37677>>>>>Open liga
-Including file: liga.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\liga.fd)
-37679>>>>>
-37679>>>>>Class cequipoDataDictionary is a DataDictionary
-37680>>>>>    
-37680>>>>>    Procedure Construct_Object
-37682>>>>>        Forward Send Construct_Object
-37684>>>>>        Set Main_File to equipo.File_Number
-37685>>>>>
-37685>>>>>        Set Add_Server_File to liga.File_Number
-37686>>>>>
-37686>>>>>        Set Add_Client_File to entrenador.File_Number
-37687>>>>>        Set Add_Client_File to jugador.File_Number
-37688>>>>>
-37688>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
-37689>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
-37690>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
-37691>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
-37692>>>>>
-37692>>>>>    End_Procedure
-37693>>>>>
-37693>>>>>End_Class
-37694>>>
-37694>>>Object oZoomEquipo is a cWebView
-37696>>>    Set piWidth to 700
-37697>>>    Set psCaption to "Equipo"
-37698>>>
-37698>>>    Object oEquipo_DD is a cequipoDataDictionary
-37700>>>    End_Object
-37701>>>
-37701>>>    Set Main_DD to oEquipo_DD
-37702>>>
-37702>>>    Object oWebMainPanel is a cWebPanel
-37704>>>        Set piColumnCount to 12
-37705>>>
-37705>>>        Object oID is a cWebForm
-37707>>>            Entry_Item equipo.ID
-37708>>>            Set piColumnSpan to 6
-37709>>>            Set psLabel to "ID:"
-37710>>>        End_Object
-37711>>>
-37711>>>        Object oNombre is a cWebForm
-37713>>>            Entry_Item equipo.Nombre
-37714>>>            Set piColumnSpan to 6
-37715>>>            Set psLabel to "Nombre:"
-37716>>>        End_Object
-37717>>>
-37717>>>        Object oLigaID is a cWebForm
-37719>>>            Entry_Item equipo.LigaID
-37720>>>            Set piColumnSpan to 6
-37721>>>            Set psLabel to "Liga:"
-37722>>>        End_Object
-37723>>>
-37723>>>    End_Object
-37724>>>End_Object
-37725>    Use ZoomLiga.wo
-Including file: ZoomLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomLiga.wo)
-37725>>>Use cWebView.pkg
-37725>>>Use cWebPanel.pkg
-37725>>>Use cWebForm.pkg
-37725>>>Use cligaDataDictionary.dd
-Including file: cligaDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\cligaDataDictionary.dd)
-37725>>>>>Use DataDict.pkg
-37725>>>>>
-37725>>>>>Open liga
-37727>>>>>Open equipo
-37729>>>>>
-37729>>>>>Class cligaDataDictionary is a DataDictionary
-37730>>>>>    
-37730>>>>>    Procedure Construct_Object
-37732>>>>>        Forward Send Construct_Object
-37734>>>>>        Set Main_File to liga.File_Number
-37735>>>>>
-37735>>>>>        Set Add_Client_File to equipo.File_Number
-37736>>>>>
-37736>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
-37737>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
-37738>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
-37739>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
-37740>>>>>
-37740>>>>>    End_Procedure
-37741>>>>>
-37741>>>>>End_Class
-37742>>>
-37742>>>Object oZoomLiga is a cWebView
-37744>>>    Set piWidth to 700
-37745>>>    Set psCaption to "Liga"
-37746>>>
-37746>>>    Object oLiga_DD is a cligaDataDictionary
-37748>>>    End_Object
-37749>>>
-37749>>>    Set Main_DD to oLiga_DD
-37750>>>
-37750>>>    Object oWebMainPanel is a cWebPanel
-37752>>>        Set piColumnCount to 12
-37753>>>
-37753>>>        Object oID is a cWebForm
-37755>>>            Entry_Item liga.ID
-37756>>>            Set piColumnSpan to 6
-37757>>>            Set psLabel to "ID:"
-37758>>>        End_Object
-37759>>>
-37759>>>        Object oNombre is a cWebForm
-37761>>>            Entry_Item liga.Nombre
-37762>>>            Set piColumnSpan to 6
-37763>>>            Set psLabel to "Nombre:"
-37764>>>        End_Object
-37765>>>
-37765>>>        Object oPais is a cWebForm
-37767>>>            Entry_Item liga.Pais
-37768>>>            Set piColumnSpan to 6
-37769>>>            Set psLabel to "País:"
-37770>>>        End_Object
-37771>>>
-37771>>>        Object oEquipos is a cWebForm
-37773>>>            Entry_Item liga.Equipos
-37774>>>            Set piColumnSpan to 6
-37775>>>            Set psLabel to "Equipos:"
-37776>>>        End_Object
-37777>>>
-37777>>>        Object oEquiposMax is a cWebForm
-37779>>>            Entry_Item liga.EquiposMax
-37780>>>            Set piColumnSpan to 6
-37781>>>            Set psLabel to "Máximo de equipos:"
-37782>>>        End_Object
-37783>>>
-37783>>>    End_Object
-37784>>>End_Object
-37785>
-37785>    Use SelectEntrenador.wo
-Including file: SelectEntrenador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectEntrenador.wo)
-37785>>>Use cWebView.pkg
-37785>>>Use cWebPanel.pkg
-37785>>>Use cWebList.pkg
-37785>>>Use cWebColumn.pkg
-37785>>>Use centrenadorDataDictionary.dd
+37552>>>Use cWebForm.pkg
+37552>>>Use centrenadorDataDictionary.dd
 Including file: centrenadorDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\centrenadorDataDictionary.dd)
-37785>>>>>
-37785>>>>>Use DataDict.pkg
-37785>>>>>
-37785>>>>>Open entrenador
-37787>>>>>Open equipo
-37789>>>>>
-37789>>>>>Class centrenadorDataDictionary is a DataDictionary
-37790>>>>>
-37790>>>>>    Procedure Construct_Object
-37792>>>>>        Forward Send Construct_Object
-37794>>>>>
-37794>>>>>        Set Main_File to entrenador.File_Number
-37795>>>>>        Set Add_Server_File to equipo.File_Number
-37796>>>>>
-37796>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
-37797>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
-37798>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
-37799>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
-37800>>>>>
-37800>>>>>    End_Procedure
-37801>>>>>
-37801>>>>>End_Class
-37802>>>
-37802>>>Object oSelectEntrenador is a cWebView
-37804>>>    Set piWidth to 600
-37805>>>    Set psCaption to "Seleccionar Entrenador"
-37806>>>
-37806>>>    Object oEntrenador_DD is a centrenadorDataDictionary
-37808>>>    End_Object
-37809>>>
-37809>>>    Set Main_DD to oEntrenador_DD
+37552>>>>>Use DataDict.pkg
+37552>>>>>
+37552>>>>>Open entrenador
+Including file: entrenador.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\entrenador.fd)
+37554>>>>>Open equipo
+Including file: equipo.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\equipo.fd)
+37556>>>>>Open liga
+Including file: liga.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\liga.fd)
+37558>>>>>
+37558>>>>>Class centrenadorDataDictionary is a DataDictionary
+37559>>>>>
+37559>>>>>    Procedure Construct_Object
+37561>>>>>        Forward Send Construct_Object
+37563>>>>>
+37563>>>>>        Set Main_File to entrenador.File_Number
+37564>>>>>        Set Add_Server_File to equipo.File_Number
+37565>>>>>        Set Add_Server_File to liga.File_Number
+37566>>>>>
+37566>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
+37567>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
+37568>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
+37569>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
+37570>>>>>
+37570>>>>>    End_Procedure
+37571>>>>>
+37571>>>>>End_Class
+37572>>>
+37572>>>Object oZoomEntrenador is a cWebView
+37574>>>    Set piWidth to 700
+37575>>>    Set psCaption to "Entrenador"
+37576>>>
+37576>>>    // Data Dictionary
+37576>>>    Object oEntrenador_DD is a centrenadorDataDictionary
+37578>>>    End_Object
+37579>>>
+37579>>>    Set Main_DD to oEntrenador_DD
+37580>>>
+37580>>>    // Panel principal
+37580>>>    Object oWebMainPanel is a cWebPanel
+37582>>>        Set piColumnCount to 12
+37583>>>        WebSetResponsive piColumnCount rmMobile to 4
+37584>>>        //Datos
+37584>>>        Object odatos_grp is a cWebGroup
+37586>>>            Set piColumnSpan to 12
+37587>>>            Set pbShowBorder to True
+37588>>>            Set piColumnCount to 12
+37589>>>            
+37589>>>            // Nombre
+37589>>>            Object oNombre is a cWebForm
+37591>>>                Entry_Item entrenador.Nombre
+37592>>>                Set piColumnSpan to 6
+37593>>>                Set piColumnIndex to 0
+37594>>>                Set peLabelPosition to lpTop
+37595>>>                Set psLabel to "Nombre:"
+37596>>>            End_Object
+37597>>>    
+37597>>>            // Apellido
+37597>>>            Object oApellido is a cWebForm
+37599>>>                Entry_Item entrenador.Apellido
+37600>>>                Set piColumnSpan to 6
+37601>>>                Set piColumnIndex to 6
+37602>>>                Set peLabelPosition to lpTop
+37603>>>                Set psLabel to "Apellido:"
+37604>>>            End_Object
+37605>>>        End_Object
+37606>>>        
+37606>>>        //Grupo equipoliga
+37606>>>        Object oEquipoLiga_grp is a cWebGroup
+37608>>>            Set piColumnSpan to 6
+37609>>>            Set pbShowBorder to True
+37610>>>            Set piColumnCount to 6
+37611>>>            
+37611>>>            // Equipo            
+37611>>>            Object oEquipoNombre is a cWebForm
+37613>>>            Set piColumnSpan to 6
+37614>>>            Set psLabel to "Equipo:"
+37615>>>            Set pbEnabled to False
+37616>>>            End_Object
+37617>>>    
+37617>>>            // Liga
+37617>>>            Object oLigaNombre is a cWebForm
+37619>>>                Set piColumnSpan to 6
+37620>>>                Set psLabel to "Liga:"
+37621>>>                Set pbEnabled to False
+37622>>>            End_Object
+37623>>>                
+37623>>>          End_Object
+37624>>>    
+37624>>>          // Nacionalidad
+37624>>>          Object oNacionalidad is a cWebForm
+37626>>>            Entry_Item entrenador.Nacionalidad
+37627>>>            Set piColumnSpan to 8
+37628>>>            Set piColumnIndex to 0
+37629>>>            Set peLabelPosition to lpTop
+37630>>>            Set psLabel to "Nacionalidad"
+37631>>>           End_Object
+37632>>>
+37632>>>     
+37632>>>
+37632>>>    End_Object
+37633>>>
+37633>>>End_Object
+37634>    Use ZoomJugador.wo
+Including file: ZoomJugador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomJugador.wo)
+37634>>>Use cWebView.pkg
+37634>>>Use cWebPanel.pkg
+37634>>>Use cWebForm.pkg
+37634>>>Use cjugadorDataDictionary.dd
+Including file: cjugadorDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\cjugadorDataDictionary.dd)
+37634>>>>>Use DataDict.pkg
+37634>>>>>
+37634>>>>>Open jugador
+Including file: jugador.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\jugador.fd)
+37636>>>>>Open jugadorposicion
+Including file: jugadorposicion.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\jugadorposicion.fd)
+37638>>>>>Open equipo
+37640>>>>>
+37640>>>>>Class cjugadorDataDictionary is a DataDictionary
+37641>>>>>    
+37641>>>>>    Procedure Construct_Object
+37643>>>>>        Forward Send Construct_Object
+37645>>>>>        Set Main_File to jugador.File_Number
+37646>>>>>
+37646>>>>>        Set Add_Server_File to equipo.File_Number
+37647>>>>>
+37647>>>>>        Set Add_Client_File to jugadorposicion.File_Number
+37648>>>>>
+37648>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
+37649>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
+37650>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
+37651>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
+37652>>>>>
+37652>>>>>    End_Procedure
+37653>>>>>
+37653>>>>>End_Class
+37654>>>
+37654>>>Object oZoomJugador is a cWebView
+37656>>>    Set piWidth to 700
+37657>>>    Set psCaption to "Jugador"
+37658>>>
+37658>>>    Object oJugador_DD is a cjugadorDataDictionary
+37660>>>    End_Object
+37661>>>
+37661>>>    Set Main_DD to oJugador_DD
+37662>>>
+37662>>>    Object oWebMainPanel is a cWebPanel
+37664>>>        Set piColumnCount to 12
+37665>>>
+37665>>>        Object oID is a cWebForm
+37667>>>            Entry_Item jugador.ID
+37668>>>            Set piColumnSpan to 6
+37669>>>            Set psLabel to "ID:"
+37670>>>        End_Object
+37671>>>
+37671>>>        Object oNombre is a cWebForm
+37673>>>            Entry_Item jugador.Nombre
+37674>>>            Set piColumnSpan to 6
+37675>>>            Set psLabel to "Nombre:"
+37676>>>        End_Object
+37677>>>
+37677>>>        Object oApellido is a cWebForm
+37679>>>            Entry_Item jugador.Apellido
+37680>>>            Set piColumnSpan to 6
+37681>>>            Set psLabel to "Apellido:"
+37682>>>        End_Object
+37683>>>
+37683>>>        Object oNacionalidad is a cWebForm
+37685>>>            Entry_Item jugador.Nacionalidad
+37686>>>            Set piColumnSpan to 6
+37687>>>            Set psLabel to "Nacionalidad:"
+37688>>>        End_Object
+37689>>>
+37689>>>        Object oEquipoID is a cWebForm
+37691>>>            Entry_Item jugador.EquipoID
+37692>>>            Set piColumnSpan to 6
+37693>>>            Set psLabel to "Equipo:"
+37694>>>        End_Object
+37695>>>
+37695>>>    End_Object
+37696>>>End_Object
+37697>    Use ZoomPosicion.wo
+Including file: ZoomPosicion.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomPosicion.wo)
+37697>>>Use cWebView.pkg
+37697>>>Use cWebPanel.pkg
+37697>>>Use cWebForm.pkg
+37697>>>Use cposicionDataDictionary.dd
+Including file: cposicionDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\cposicionDataDictionary.dd)
+37697>>>>>Use DataDict.pkg
+37697>>>>>
+37697>>>>>Open posicion
+Including file: posicion.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\posicion.fd)
+37699>>>>>Open jugadorposicion
+37701>>>>>
+37701>>>>>Class cposicionDataDictionary is a DataDictionary
+37702>>>>>    
+37702>>>>>    Procedure Construct_Object
+37704>>>>>        Forward Send Construct_Object
+37706>>>>>        Set Main_File to posicion.File_Number
+37707>>>>>
+37707>>>>>        Set Add_Client_File to jugadorposicion.File_Number
+37708>>>>>
+37708>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
+37709>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
+37710>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
+37711>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
+37712>>>>>
+37712>>>>>    End_Procedure
+37713>>>>>
+37713>>>>>End_Class
+37714>>>
+37714>>>Object oZoomPosicion is a cWebView
+37716>>>    Set piWidth to 700
+37717>>>    Set psCaption to "Posición"
+37718>>>
+37718>>>    Object oPosicion_DD is a cposicionDataDictionary
+37720>>>    End_Object
+37721>>>
+37721>>>    Set Main_DD to oPosicion_DD
+37722>>>
+37722>>>    Object oWebMainPanel is a cWebPanel
+37724>>>        Set piColumnCount to 12
+37725>>>
+37725>>>        Object oID is a cWebForm
+37727>>>            Entry_Item posicion.ID
+37728>>>            Set piColumnSpan to 6
+37729>>>            Set psLabel to "ID:"
+37730>>>        End_Object
+37731>>>
+37731>>>        Object oNombre is a cWebForm
+37733>>>            Entry_Item posicion.Nombre
+37734>>>            Set piColumnSpan to 6
+37735>>>            Set psLabel to "Nombre:"
+37736>>>        End_Object
+37737>>>
+37737>>>    End_Object
+37738>>>End_Object
+37739>    Use ZoomEquipo.wo
+Including file: ZoomEquipo.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomEquipo.wo)
+37739>>>Use cWebView.pkg
+37739>>>Use cWebPanel.pkg
+37739>>>Use cWebForm.pkg
+37739>>>Use cequipoDataDictionary.dd
+Including file: cequipoDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\cequipoDataDictionary.dd)
+37739>>>>>Use DataDict.pkg
+37739>>>>>
+37739>>>>>Open equipo
+37741>>>>>Open entrenador
+37743>>>>>Open jugador
+37745>>>>>Open liga
+37747>>>>>
+37747>>>>>Class cequipoDataDictionary is a DataDictionary
+37748>>>>>    
+37748>>>>>    Procedure Construct_Object
+37750>>>>>        Forward Send Construct_Object
+37752>>>>>        Set Main_File to equipo.File_Number
+37753>>>>>
+37753>>>>>        Set Add_Server_File to liga.File_Number
+37754>>>>>
+37754>>>>>        Set Add_Client_File to entrenador.File_Number
+37755>>>>>        Set Add_Client_File to jugador.File_Number
+37756>>>>>
+37756>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
+37757>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
+37758>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
+37759>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
+37760>>>>>
+37760>>>>>    End_Procedure
+37761>>>>>
+37761>>>>>End_Class
+37762>>>
+37762>>>Object oZoomEquipo is a cWebView
+37764>>>    Set piWidth to 700
+37765>>>    Set psCaption to "Equipo"
+37766>>>
+37766>>>    Object oEquipo_DD is a cequipoDataDictionary
+37768>>>    End_Object
+37769>>>
+37769>>>    Set Main_DD to oEquipo_DD
+37770>>>
+37770>>>    Object oWebMainPanel is a cWebPanel
+37772>>>        Set piColumnCount to 12
+37773>>>
+37773>>>        Object oID is a cWebForm
+37775>>>            Entry_Item equipo.ID
+37776>>>            Set piColumnSpan to 6
+37777>>>            Set psLabel to "ID:"
+37778>>>        End_Object
+37779>>>
+37779>>>        Object oNombre is a cWebForm
+37781>>>            Entry_Item equipo.Nombre
+37782>>>            Set piColumnSpan to 6
+37783>>>            Set psLabel to "Nombre:"
+37784>>>        End_Object
+37785>>>
+37785>>>        Object oLigaID is a cWebForm
+37787>>>            Entry_Item equipo.LigaID
+37788>>>            Set piColumnSpan to 6
+37789>>>            Set psLabel to "Liga:"
+37790>>>        End_Object
+37791>>>
+37791>>>    End_Object
+37792>>>End_Object
+37793>    Use ZoomLiga.wo
+Including file: ZoomLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomLiga.wo)
+37793>>>Use cWebView.pkg
+37793>>>Use cWebPanel.pkg
+37793>>>Use cWebForm.pkg
+37793>>>Use cligaDataDictionary.dd
+Including file: cligaDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\cligaDataDictionary.dd)
+37793>>>>>Use DataDict.pkg
+37793>>>>>
+37793>>>>>Open liga
+37795>>>>>Open equipo
+37797>>>>>
+37797>>>>>Class cligaDataDictionary is a DataDictionary
+37798>>>>>    
+37798>>>>>    Procedure Construct_Object
+37800>>>>>        Forward Send Construct_Object
+37802>>>>>        Set Main_File to liga.File_Number
+37803>>>>>
+37803>>>>>        Set Add_Client_File to equipo.File_Number
+37804>>>>>
+37804>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
+37805>>>>>        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
+37806>>>>>        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
+37807>>>>>        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
+37808>>>>>
+37808>>>>>    End_Procedure
+37809>>>>>
+37809>>>>>End_Class
 37810>>>
-37810>>>    Procedure OnLoad
-37813>>>        Forward Send OnLoad
-37815>>>        Send Find of oEntrenador_DD FIRST_RECORD 1
-37816>>>    End_Procedure
+37810>>>Object oZoomLiga is a cWebView
+37812>>>    Set piWidth to 700
+37813>>>    Set psCaption to "Liga"
+37814>>>
+37814>>>    Object oLiga_DD is a cligaDataDictionary
+37816>>>    End_Object
 37817>>>
-37817>>>    Object oWebMainPanel is a cWebPanel
-37819>>>        Set piColumnCount to 12
-37820>>>
-37820>>>        Object oEntrenadorList is a cWebList
-37822>>>            Set piColumnSpan to 12
-37823>>>            Set pbFillHeight to True
-37824>>>            Set Server to oEntrenador_DD
-37825>>>
-37825>>>            Object oID is a cWebColumn
-37827>>>                Entry_Item entrenador.ID
-37828>>>                Set psCaption to "ID"
-37829>>>                Set piWidth to 10
-37830>>>            End_Object
-37831>>>
-37831>>>            Object oNombre is a cWebColumn
-37833>>>                Entry_Item entrenador.Nombre
-37834>>>                Set psCaption to "Nombre"
-37835>>>                Set piWidth to 25
-37836>>>            End_Object
-37837>>>
-37837>>>            Object oApellido is a cWebColumn
-37839>>>                Entry_Item entrenador.Apellido
-37840>>>                Set psCaption to "Apellido"
-37841>>>                Set piWidth to 25
-37842>>>            End_Object
-37843>>>
-37843>>>            Object oNacionalidad is a cWebColumn
-37845>>>                Entry_Item entrenador.Nacionalidad
-37846>>>                Set psCaption to "Nacionalidad"
-37847>>>                Set piWidth to 20
-37848>>>            End_Object
-37849>>>
-37849>>>            Object oEquipoID is a cWebColumn
-37851>>>                Entry_Item entrenador.EquipoID
-37852>>>                Set psCaption to "Equipo ID"
-37853>>>                Set piWidth to 20
-37854>>>            End_Object
-37855>>>        End_Object
-37856>>>    End_Object
-37857>>>End_Object
-37858>    Use SelectJugador.wo
-Including file: SelectJugador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectJugador.wo)
-37858>>>
-37858>>>Use cWebView.pkg
-37858>>>Use cWebPanel.pkg
-37858>>>Use cWebList.pkg
-37858>>>Use cWebColumn.pkg
-37858>>>Use cjugadorDataDictionary.dd
-37858>>>
-37858>>>Object oSelectJugador is a cWebView
-37860>>>    Set piWidth to 900
-37861>>>    Set psCaption to "Seleccionar Jugador"
-37862>>>
-37862>>>    Object oJugador_DD is a cjugadorDataDictionary
-37864>>>    End_Object
-37865>>>
-37865>>>    Set Main_DD to oJugador_DD
-37866>>>
-37866>>>    Procedure OnLoad
-37869>>>        Forward Send OnLoad
-37871>>>        Send Find of oJugador_DD FIRST_RECORD 1
-37872>>>    End_Procedure
-37873>>>
-37873>>>    Object oWebMainPanel is a cWebPanel
-37875>>>        Set piColumnCount to 12
+37817>>>    Set Main_DD to oLiga_DD
+37818>>>
+37818>>>    Object oWebMainPanel is a cWebPanel
+37820>>>        Set piColumnCount to 12
+37821>>>
+37821>>>        Object oID is a cWebForm
+37823>>>            Entry_Item liga.ID
+37824>>>            Set piColumnSpan to 6
+37825>>>            Set psLabel to "ID:"
+37826>>>        End_Object
+37827>>>
+37827>>>        Object oNombre is a cWebForm
+37829>>>            Entry_Item liga.Nombre
+37830>>>            Set piColumnSpan to 6
+37831>>>            Set psLabel to "Nombre:"
+37832>>>        End_Object
+37833>>>
+37833>>>        Object oPais is a cWebForm
+37835>>>            Entry_Item liga.Pais
+37836>>>            Set piColumnSpan to 6
+37837>>>            Set psLabel to "País:"
+37838>>>        End_Object
+37839>>>
+37839>>>        Object oEquipos is a cWebForm
+37841>>>            Entry_Item liga.Equipos
+37842>>>            Set piColumnSpan to 6
+37843>>>            Set psLabel to "Equipos:"
+37844>>>        End_Object
+37845>>>
+37845>>>        Object oEquiposMax is a cWebForm
+37847>>>            Entry_Item liga.EquiposMax
+37848>>>            Set piColumnSpan to 6
+37849>>>            Set psLabel to "Máximo de equipos:"
+37850>>>        End_Object
+37851>>>
+37851>>>    End_Object
+37852>>>End_Object
+37853>
+37853>    Use SelectEntrenador.wo
+Including file: SelectEntrenador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectEntrenador.wo)
+37853>>>Use cWebView.pkg
+37853>>>Use cWebPanel.pkg
+37853>>>Use cWebList.pkg
+37853>>>Use cWebColumn.pkg
+37853>>>Use centrenadorDataDictionary.dd
+37853>>>
+37853>>>Object oSelectEntrenador is a cWebView
+37855>>>    Set piWidth to 600
+37856>>>    Set psCaption to "Seleccionar Entrenador"
+37857>>>
+37857>>>    Object oEntrenador_DD is a centrenadorDataDictionary
+37859>>>    End_Object
+37860>>>
+37860>>>    Set Main_DD to oEntrenador_DD
+37861>>>
+37861>>>    Procedure OnLoad
+37864>>>        Forward Send OnLoad
+37866>>>        Send Find of oEntrenador_DD FIRST_RECORD 1
+37867>>>    End_Procedure
+37868>>>
+37868>>>    Object oWebMainPanel is a cWebPanel
+37870>>>        Set piColumnCount to 12
+37871>>>
+37871>>>        Object oEntrenadorList is a cWebList
+37873>>>            Set piColumnSpan to 12
+37874>>>            Set pbFillHeight to True
+37875>>>            Set Server to oEntrenador_DD
 37876>>>
-37876>>>        Object oJugadorList is a cWebList
-37878>>>            Set piColumnSpan to 12
-37879>>>            Set pbFillHeight to True
-37880>>>            Set Server to oJugador_DD
-37881>>>
-37881>>>            Object oID is a cWebColumn
-37883>>>                Entry_Item jugador.ID
-37884>>>                Set psCaption to "ID"
-37885>>>                Set piWidth to 10
-37886>>>            End_Object
-37887>>>
-37887>>>            Object oNombre is a cWebColumn
-37889>>>                Entry_Item jugador.Nombre
-37890>>>                Set psCaption to "Nombre"
-37891>>>                Set piWidth to 25
-37892>>>            End_Object
-37893>>>
-37893>>>            Object oApellido is a cWebColumn
-37895>>>                Entry_Item jugador.Apellido
-37896>>>                Set psCaption to "Apellido"
-37897>>>                Set piWidth to 25
-37898>>>            End_Object
-37899>>>
-37899>>>            Object oNacionalidad is a cWebColumn
-37901>>>                Entry_Item jugador.Nacionalidad
-37902>>>                Set psCaption to "Nacionalidad"
-37903>>>                Set piWidth to 12
-37904>>>            End_Object
-37905>>>
-37905>>>            Object oEquipoID is a cWebColumn
-37907>>>                Entry_Item jugador.EquipoID
-37908>>>                Set psCaption to "Equipo ID"
-37909>>>                Set piWidth to 20
-37910>>>            End_Object
-37911>>>
-37911>>>        End_Object
-37912>>>    End_Object
-37913>>>End_Object
-37914>    Use SelectPosicion.wo
-Including file: SelectPosicion.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectPosicion.wo)
-37914>>>Use cWebView.pkg
-37914>>>Use cWebPanel.pkg
-37914>>>Use cWebList.pkg
-37914>>>Use cWebColumn.pkg
-37914>>>Use cposicionDataDictionary.dd
-37914>>>
-37914>>>Object oSelectPosicion is a cWebView
-37916>>>    Set piWidth to 500
-37917>>>    Set psCaption to "Seleccionar Posición"
-37918>>>
-37918>>>    Object oPosicion_DD is a cposicionDataDictionary
-37920>>>    End_Object
-37921>>>
-37921>>>    Set Main_DD to oPosicion_DD
-37922>>>
-37922>>>    Procedure OnLoad
-37925>>>        Forward Send OnLoad
-37927>>>        Send Find of oPosicion_DD FIRST_RECORD 1
-37928>>>    End_Procedure
-37929>>>
-37929>>>    Object oWebMainPanel is a cWebPanel
-37931>>>        Set piColumnCount to 12
+37876>>>            Object oID is a cWebColumn
+37878>>>                Entry_Item entrenador.ID
+37879>>>                Set psCaption to "ID"
+37880>>>                Set piWidth to 10
+37881>>>            End_Object
+37882>>>
+37882>>>            Object oNombre is a cWebColumn
+37884>>>                Entry_Item entrenador.Nombre
+37885>>>                Set psCaption to "Nombre"
+37886>>>                Set piWidth to 25
+37887>>>            End_Object
+37888>>>
+37888>>>            Object oApellido is a cWebColumn
+37890>>>                Entry_Item entrenador.Apellido
+37891>>>                Set psCaption to "Apellido"
+37892>>>                Set piWidth to 25
+37893>>>            End_Object
+37894>>>
+37894>>>            Object oNacionalidad is a cWebColumn
+37896>>>                Entry_Item entrenador.Nacionalidad
+37897>>>                Set psCaption to "Nacionalidad"
+37898>>>                Set piWidth to 20
+37899>>>            End_Object
+37900>>>
+37900>>>            Object oEquipoID is a cWebColumn
+37902>>>                Entry_Item entrenador.EquipoID
+37903>>>                Set psCaption to "Equipo ID"
+37904>>>                Set piWidth to 20
+37905>>>            End_Object
+37906>>>        End_Object
+37907>>>    End_Object
+37908>>>End_Object
+37909>    Use SelectJugador.wo
+Including file: SelectJugador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectJugador.wo)
+37909>>>
+37909>>>Use cWebView.pkg
+37909>>>Use cWebPanel.pkg
+37909>>>Use cWebList.pkg
+37909>>>Use cWebColumn.pkg
+37909>>>Use cjugadorDataDictionary.dd
+37909>>>
+37909>>>Object oSelectJugador is a cWebView
+37911>>>    Set piWidth to 900
+37912>>>    Set psCaption to "Seleccionar Jugador"
+37913>>>
+37913>>>    Object oJugador_DD is a cjugadorDataDictionary
+37915>>>    End_Object
+37916>>>
+37916>>>    Set Main_DD to oJugador_DD
+37917>>>
+37917>>>    Procedure OnLoad
+37920>>>        Forward Send OnLoad
+37922>>>        Send Find of oJugador_DD FIRST_RECORD 1
+37923>>>    End_Procedure
+37924>>>
+37924>>>    Object oWebMainPanel is a cWebPanel
+37926>>>        Set piColumnCount to 12
+37927>>>
+37927>>>        Object oJugadorList is a cWebList
+37929>>>            Set piColumnSpan to 12
+37930>>>            Set pbFillHeight to True
+37931>>>            Set Server to oJugador_DD
 37932>>>
-37932>>>        Object oPosicionList is a cWebList
-37934>>>            Set piColumnSpan to 12
-37935>>>            Set pbFillHeight to True
-37936>>>            Set Server to oPosicion_DD
-37937>>>
-37937>>>            Object oID is a cWebColumn
-37939>>>                Entry_Item posicion.ID
-37940>>>                Set psCaption to "ID"
-37941>>>                Set piWidth to 15
-37942>>>            End_Object
-37943>>>
-37943>>>            Object oNombre is a cWebColumn
-37945>>>                Entry_Item posicion.Nombre
-37946>>>                Set psCaption to "Nombre"
-37947>>>                Set piWidth to 70
-37948>>>            End_Object
-37949>>>        End_Object
-37950>>>    End_Object
-37951>>>End_Object
-37952>    Use SelectEquipo.wo
-Including file: SelectEquipo.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectEquipo.wo)
-37952>>>Use cWebView.pkg
-37952>>>Use cWebPanel.pkg
-37952>>>Use cWebList.pkg
-37952>>>Use cWebColumn.pkg
-37952>>>Use cequipoDataDictionary.dd
-37952>>>
-37952>>>Object oSelectEquipo is a cWebView
-37954>>>    Set piWidth to 800
-37955>>>    Set psCaption to "Seleccionar Equipo"
+37932>>>            Object oID is a cWebColumn
+37934>>>                Entry_Item jugador.ID
+37935>>>                Set psCaption to "ID"
+37936>>>                Set piWidth to 10
+37937>>>            End_Object
+37938>>>
+37938>>>            Object oNombre is a cWebColumn
+37940>>>                Entry_Item jugador.Nombre
+37941>>>                Set psCaption to "Nombre"
+37942>>>                Set piWidth to 25
+37943>>>            End_Object
+37944>>>
+37944>>>            Object oApellido is a cWebColumn
+37946>>>                Entry_Item jugador.Apellido
+37947>>>                Set psCaption to "Apellido"
+37948>>>                Set piWidth to 25
+37949>>>            End_Object
+37950>>>
+37950>>>            Object oNacionalidad is a cWebColumn
+37952>>>                Entry_Item jugador.Nacionalidad
+37953>>>                Set psCaption to "Nacionalidad"
+37954>>>                Set piWidth to 12
+37955>>>            End_Object
 37956>>>
-37956>>>    Object oEquipo_DD is a cequipoDataDictionary
-37958>>>    End_Object
-37959>>>
-37959>>>    Set Main_DD to oEquipo_DD
-37960>>>
-37960>>>    Procedure OnLoad
-37963>>>        Forward Send OnLoad
-37965>>>        Send Find of oEquipo_DD FIRST_RECORD 1
-37966>>>    End_Procedure
-37967>>>
-37967>>>    Object oWebMainPanel is a cWebPanel
-37969>>>        Set piColumnCount to 12
-37970>>>
-37970>>>        Object oEquipoList is a cWebList
-37972>>>            Set piColumnSpan to 8
-37973>>>            Set pbFillHeight to True
-37974>>>            Set Server to oEquipo_DD
-37975>>>
-37975>>>            Object oID is a cWebColumn
-37977>>>                Entry_Item equipo.ID
-37978>>>                Set psCaption to "ID"
-37979>>>                Set piWidth to 20
-37980>>>            End_Object
-37981>>>
-37981>>>            Object oNombre is a cWebColumn
-37983>>>                Entry_Item equipo.Nombre
-37984>>>                Set psCaption to "Nombre"
-37985>>>                Set piWidth to 50
-37986>>>            End_Object
-37987>>>
-37987>>>            Object oLigaID is a cWebColumn
-37989>>>                Entry_Item equipo.LigaID
-37990>>>                Set psCaption to "Liga ID"
-37991>>>                Set piWidth to 30
-37992>>>            End_Object
-37993>>>        End_Object
-37994>>>    End_Object
-37995>>>End_Object
-37996>    Use SelectLiga.wo
+37956>>>            Object oEquipoID is a cWebColumn
+37958>>>                Entry_Item jugador.EquipoID
+37959>>>                Set psCaption to "Equipo ID"
+37960>>>                Set piWidth to 20
+37961>>>            End_Object
+37962>>>
+37962>>>        End_Object
+37963>>>    End_Object
+37964>>>End_Object
+37965>    Use SelectPosicion.wo
+Including file: SelectPosicion.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectPosicion.wo)
+37965>>>Use cWebView.pkg
+37965>>>Use cWebPanel.pkg
+37965>>>Use cWebList.pkg
+37965>>>Use cWebColumn.pkg
+37965>>>Use cposicionDataDictionary.dd
+37965>>>
+37965>>>Object oSelectPosicion is a cWebView
+37967>>>    Set piWidth to 500
+37968>>>    Set psCaption to "Seleccionar Posición"
+37969>>>
+37969>>>    Object oPosicion_DD is a cposicionDataDictionary
+37971>>>    End_Object
+37972>>>
+37972>>>    Set Main_DD to oPosicion_DD
+37973>>>
+37973>>>    Procedure OnLoad
+37976>>>        Forward Send OnLoad
+37978>>>        Send Find of oPosicion_DD FIRST_RECORD 1
+37979>>>    End_Procedure
+37980>>>
+37980>>>    Object oWebMainPanel is a cWebPanel
+37982>>>        Set piColumnCount to 12
+37983>>>
+37983>>>        Object oPosicionList is a cWebList
+37985>>>            Set piColumnSpan to 12
+37986>>>            Set pbFillHeight to True
+37987>>>            Set Server to oPosicion_DD
+37988>>>
+37988>>>            Object oID is a cWebColumn
+37990>>>                Entry_Item posicion.ID
+37991>>>                Set psCaption to "ID"
+37992>>>                Set piWidth to 15
+37993>>>            End_Object
+37994>>>
+37994>>>            Object oNombre is a cWebColumn
+37996>>>                Entry_Item posicion.Nombre
+37997>>>                Set psCaption to "Nombre"
+37998>>>                Set piWidth to 70
+37999>>>            End_Object
+38000>>>        End_Object
+38001>>>    End_Object
+38002>>>End_Object
+38003>    Use SelectEquipo.wo
+Including file: SelectEquipo.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectEquipo.wo)
+38003>>>Use cWebView.pkg
+38003>>>Use cWebPanel.pkg
+38003>>>Use cWebList.pkg
+38003>>>Use cWebColumn.pkg
+38003>>>Use cequipoDataDictionary.dd
+38003>>>
+38003>>>Object oSelectEquipo is a cWebView
+38005>>>    Set piWidth to 800
+38006>>>    Set psCaption to "Seleccionar Equipo"
+38007>>>
+38007>>>    Object oEquipo_DD is a cequipoDataDictionary
+38009>>>    End_Object
+38010>>>
+38010>>>    Set Main_DD to oEquipo_DD
+38011>>>
+38011>>>    Procedure OnLoad
+38014>>>        Forward Send OnLoad
+38016>>>        Send Find of oEquipo_DD FIRST_RECORD 1
+38017>>>    End_Procedure
+38018>>>
+38018>>>    Object oWebMainPanel is a cWebPanel
+38020>>>        Set piColumnCount to 12
+38021>>>
+38021>>>        Object oEquipoList is a cWebList
+38023>>>            Set piColumnSpan to 8
+38024>>>            Set pbFillHeight to True
+38025>>>            Set Server to oEquipo_DD
+38026>>>
+38026>>>            Object oID is a cWebColumn
+38028>>>                Entry_Item equipo.ID
+38029>>>                Set psCaption to "ID"
+38030>>>                Set piWidth to 20
+38031>>>            End_Object
+38032>>>
+38032>>>            Object oNombre is a cWebColumn
+38034>>>                Entry_Item equipo.Nombre
+38035>>>                Set psCaption to "Nombre"
+38036>>>                Set piWidth to 50
+38037>>>            End_Object
+38038>>>
+38038>>>            Object oLigaID is a cWebColumn
+38040>>>                Entry_Item equipo.LigaID
+38041>>>                Set psCaption to "Liga ID"
+38042>>>                Set piWidth to 30
+38043>>>            End_Object
+38044>>>        End_Object
+38045>>>    End_Object
+38046>>>End_Object
+38047>    Use SelectLiga.wo
 Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectLiga.wo)
-37996>>>Use cWebView.pkg
-37996>>>Use cWebPanel.pkg
-37996>>>Use cWebForm.pkg 
-37996>>>
-37996>>>Object oSelectLiga is a cWebView
-37998>>>    Set piWidth to 700
-37999>>>    Set psCaption to "Seleccionar liga"
-38000>>>
-38000>>>    // Your DDO structure will go here
-38000>>>
-38000>>>    Object oWebMainPanel is a cWebPanel
-38002>>>        Set piColumnCount to 12
-38003>>>        
-38003>>>        // place controls here
-38003>>>        // Your view will grow as controls are added
-38003>>>        
-38003>>>        Object oForm is a cWebForm
-38005>>>            Set piColumnSpan to 0
-38006>>>            Set psLabel to "Liga 1:"
-38007>>>        End_Object
-38008>>>        
-38008>>>    End_Object 
-38009>>>
-38009>>>End_Object
-38010>
-38010>    Set phoDefaultView to oDashboard
-38011>
-38011>End_Object
-38012>
-38012>Send StartWebApp of oWebApp
-38013>
+38047>>>Use cWebView.pkg
+38047>>>Use cWebPanel.pkg
+38047>>>Use cWebForm.pkg 
+38047>>>
+38047>>>Object oSelectLiga is a cWebView
+38049>>>    Set piWidth to 700
+38050>>>    Set psCaption to "Seleccionar liga"
+38051>>>
+38051>>>    // Your DDO structure will go here
+38051>>>
+38051>>>    Object oWebMainPanel is a cWebPanel
+38053>>>        Set piColumnCount to 12
+38054>>>        
+38054>>>        // place controls here
+38054>>>        // Your view will grow as controls are added
+38054>>>        
+38054>>>        Object oForm is a cWebForm
+38056>>>            Set piColumnSpan to 0
+38057>>>            Set psLabel to "Liga 1:"
+38058>>>        End_Object
+38059>>>        
+38059>>>    End_Object 
+38060>>>
+38060>>>End_Object
+38061>
+38061>    Set phoDefaultView to oDashboard
+38062>
+38062>End_Object
+38063>
+38063>Send StartWebApp of oWebApp
+38064>
 Summary
-Memory Available: 16325705728
+Memory Available: 14111191040
 Total Warnings : 0
 Total Errors   : 0
-Total Symbols  : 25331
+Total Symbols  : 25335
 Total Resources: 0
-Total Commands : 38012
+Total Commands : 38063
 Total Windows  : 0
 Total Pages    : 0
-Static Data    : 472801
-Message area   : 252967
-Total Blocks   : 16988
+Static Data    : 473105
+Message area   : 253675
+Total Blocks   : 17004
