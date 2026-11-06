@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 16353046528
+Memory Available: 16448905216
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -2031,7 +2031,7 @@ Including file: SelectJugador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Se
 37899>>>            Object oNacionalidad is a cWebColumn
 37901>>>                Entry_Item jugador.Nacionalidad
 37902>>>                Set psCaption to "Nacionalidad"
-37903>>>                Set piWidth to 20
+37903>>>                Set piWidth to 12
 37904>>>            End_Object
 37905>>>
 37905>>>            Object oEquipoID is a cWebColumn
@@ -2171,7 +2171,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 38012>Send StartWebApp of oWebApp
 38013>
 Summary
-Memory Available: 16340926464
+Memory Available: 16428498944
 Total Warnings : 0
 Total Errors   : 0
 Total Symbols  : 25331
