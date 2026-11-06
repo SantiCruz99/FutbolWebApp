@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 14072717312
+Memory Available: 16353046528
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -2113,7 +2113,7 @@ Including file: SelectEquipo.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Sel
 37969>>>        Set piColumnCount to 12
 37970>>>
 37970>>>        Object oEquipoList is a cWebList
-37972>>>            Set piColumnSpan to 12
+37972>>>            Set piColumnSpan to 8
 37973>>>            Set pbFillHeight to True
 37974>>>            Set Server to oEquipo_DD
 37975>>>
@@ -2171,7 +2171,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 38012>Send StartWebApp of oWebApp
 38013>
 Summary
-Memory Available: 14066544640
+Memory Available: 16340926464
 Total Warnings : 0
 Total Errors   : 0
 Total Symbols  : 25331
