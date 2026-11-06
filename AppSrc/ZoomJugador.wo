@@ -4,7 +4,7 @@ Use cWebForm.pkg
 Use cjugadorDataDictionary.dd
 
 Object oZoomJugador is a cWebView
-    Set piWidth to 700
+    Set piWidth to 900
     Set psCaption to "Jugador"
 
     Object oJugador_DD is a cjugadorDataDictionary

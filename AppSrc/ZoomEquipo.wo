@@ -4,7 +4,7 @@ Use cWebForm.pkg
 Use cequipoDataDictionary.dd
 
 Object oZoomEquipo is a cWebView
-    Set piWidth to 700
+    Set piWidth to 900
     Set psCaption to "Equipo"
 
     Object oEquipo_DD is a cequipoDataDictionary

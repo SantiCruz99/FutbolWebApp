@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 9199644672
+Memory Available: 16327872512
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -1496,8 +1496,8 @@ Including file: Dashboard.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Dashbo
 37438>>>        WebSetResponsive piColumnCount rmTabletPortrait to 16
 37439>>>
 37439>>>        Object oTiles_grp is a cWebGroup
-37441>>>            Set piColumnSpan to 8
-37442>>>            Set pbShowBorder to False
+37441>>>            Set piColumnSpan to 12
+37442>>>            Set pbShowBorder to True
 37443>>>            Set pbShowCaption to False
 37444>>>            Set piColumnCount to 12
 37445>>>            Set psCSSClass to "TilesGroup"
@@ -1611,7 +1611,7 @@ Including file: ZoomEntrenador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Z
 37559>>>        
 37559>>>        Object oForm is a cWebForm
 37561>>>            Set piColumnSpan to 0
-37562>>>            Set psLabel to "Label 1:"
+37562>>>            Set psLabel to "Nombre:"
 37563>>>        End_Object
 37564>>>        
 37564>>>    End_Object 
@@ -1653,7 +1653,7 @@ Including file: equipo.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\equipo.fd)
 37585>>>>>End_Class
 37586>>>
 37586>>>Object oZoomJugador is a cWebView
-37588>>>    Set piWidth to 700
+37588>>>    Set piWidth to 900
 37589>>>    Set psCaption to "Jugador"
 37590>>>
 37590>>>    Object oJugador_DD is a cjugadorDataDictionary
@@ -1727,7 +1727,7 @@ Including file: posicion.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\posicion
 37645>>>>>End_Class
 37646>>>
 37646>>>Object oZoomPosicion is a cWebView
-37648>>>    Set piWidth to 700
+37648>>>    Set piWidth to 900
 37649>>>    Set psCaption to "Posición"
 37650>>>
 37650>>>    Object oPosicion_DD is a cposicionDataDictionary
@@ -1789,7 +1789,7 @@ Including file: liga.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\liga.fd)
 37693>>>>>End_Class
 37694>>>
 37694>>>Object oZoomEquipo is a cWebView
-37696>>>    Set piWidth to 700
+37696>>>    Set piWidth to 900
 37697>>>    Set psCaption to "Equipo"
 37698>>>
 37698>>>    Object oEquipo_DD is a cequipoDataDictionary
@@ -1926,7 +1926,7 @@ Including file: centrenadorDataDictionary.dd    (C:\DataFlex Projects\FutbolWebA
 37801>>>>>End_Class
 37802>>>
 37802>>>Object oSelectEntrenador is a cWebView
-37804>>>    Set piWidth to 900
+37804>>>    Set piWidth to 600
 37805>>>    Set psCaption to "Seleccionar Entrenador"
 37806>>>
 37806>>>    Object oEntrenador_DD is a centrenadorDataDictionary
@@ -2031,7 +2031,7 @@ Including file: SelectJugador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Se
 37899>>>            Object oNacionalidad is a cWebColumn
 37901>>>                Entry_Item jugador.Nacionalidad
 37902>>>                Set psCaption to "Nacionalidad"
-37903>>>                Set piWidth to 20
+37903>>>                Set piWidth to 12
 37904>>>            End_Object
 37905>>>
 37905>>>            Object oEquipoID is a cWebColumn
@@ -2052,7 +2052,7 @@ Including file: SelectPosicion.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\S
 37914>>>Use cposicionDataDictionary.dd
 37914>>>
 37914>>>Object oSelectPosicion is a cWebView
-37916>>>    Set piWidth to 700
+37916>>>    Set piWidth to 500
 37917>>>    Set psCaption to "Seleccionar Posición"
 37918>>>
 37918>>>    Object oPosicion_DD is a cposicionDataDictionary
@@ -2076,7 +2076,7 @@ Including file: SelectPosicion.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\S
 37937>>>            Object oID is a cWebColumn
 37939>>>                Entry_Item posicion.ID
 37940>>>                Set psCaption to "ID"
-37941>>>                Set piWidth to 30
+37941>>>                Set piWidth to 15
 37942>>>            End_Object
 37943>>>
 37943>>>            Object oNombre is a cWebColumn
@@ -2113,7 +2113,7 @@ Including file: SelectEquipo.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Sel
 37969>>>        Set piColumnCount to 12
 37970>>>
 37970>>>        Object oEquipoList is a cWebList
-37972>>>            Set piColumnSpan to 12
+37972>>>            Set piColumnSpan to 8
 37973>>>            Set pbFillHeight to True
 37974>>>            Set Server to oEquipo_DD
 37975>>>
@@ -2144,8 +2144,8 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 37996>>>Use cWebForm.pkg 
 37996>>>
 37996>>>Object oSelectLiga is a cWebView
-37998>>>    Set piWidth to 700
-37999>>>    Set psCaption to "seleccionar liga"
+37998>>>    Set piWidth to 900
+37999>>>    Set psCaption to "Seleccionar liga"
 38000>>>
 38000>>>    // Your DDO structure will go here
 38000>>>
@@ -2157,7 +2157,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 38003>>>        
 38003>>>        Object oForm is a cWebForm
 38005>>>            Set piColumnSpan to 0
-38006>>>            Set psLabel to "Label 1:"
+38006>>>            Set psLabel to "Liga 1:"
 38007>>>        End_Object
 38008>>>        
 38008>>>    End_Object 
@@ -2171,7 +2171,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 38012>Send StartWebApp of oWebApp
 38013>
 Summary
-Memory Available: 9192202240
+Memory Available: 16321101824
 Total Warnings : 0
 Total Errors   : 0
 Total Symbols  : 25331
@@ -2179,6 +2179,6 @@ Total Resources: 0
 Total Commands : 38012
 Total Windows  : 0
 Total Pages    : 0
-Static Data    : 472803
+Static Data    : 472797
 Message area   : 252967
 Total Blocks   : 16988

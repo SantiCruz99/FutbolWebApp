@@ -27,8 +27,8 @@ Object oDashboard is a cWebView
         WebSetResponsive piColumnCount rmTabletPortrait to 16
 
         Object oTiles_grp is a cWebGroup
-            Set piColumnSpan to 8
-            Set pbShowBorder to False
+            Set piColumnSpan to 12
+            Set pbShowBorder to True
             Set pbShowCaption to False
             Set piColumnCount to 12
             Set psCSSClass to "TilesGroup"
