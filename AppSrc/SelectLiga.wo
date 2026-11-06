@@ -3,7 +3,7 @@ Use cWebPanel.pkg
 Use cWebForm.pkg 
 
 Object oSelectLiga is a cWebView
-    Set piWidth to 700
+    Set piWidth to 900
     Set psCaption to "Seleccionar liga"
 
     // Your DDO structure will go here
