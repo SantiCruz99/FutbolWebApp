@@ -1,24 +1,179 @@
 ﻿Use cWebView.pkg
 Use cWebPanel.pkg
-Use cWebForm.pkg 
+Use cWebForm.pkg
+Use cWebMenuItem.pkg
+Use centrenadorDataDictionary.dd
 
 Object oZoomEntrenador is a cWebView
     Set piWidth to 700
     Set psCaption to "Entrenador"
 
-    // Your DDO structure will go here
+    // Data Dictionary
+    Object oEntrenador_DD is a centrenadorDataDictionary
+    End_Object
 
+    Set Main_DD to oEntrenador_DD
+
+    // Panel principal
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
-        
-        // place controls here
-        // Your view will grow as controls are added
-        
-        Object oForm is a cWebForm
-            Set piColumnSpan to 0
-            Set psLabel to "Nombre:"
+        WebSetResponsive piColumnCount rmMobile to 4
+        //Datos
+        Object odatos_grp is a cWebGroup
+            Set piColumnSpan to 12
+            Set pbShowBorder to True
+            Set piColumnCount to 12
+            
+            // Nombre
+            Object oNombre is a cWebForm
+                Entry_Item entrenador.Nombre
+                Set piColumnSpan to 6
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpTop
+                Set psLabel to "Nombre:"
+            End_Object
+    
+            // Apellido
+            Object oApellido is a cWebForm
+                Entry_Item entrenador.Apellido
+                Set piColumnSpan to 6
+                Set piColumnIndex to 6
+                Set peLabelPosition to lpTop
+                Set psLabel to "Apellido:"
+            End_Object
         End_Object
         
-    End_Object 
+        //Grupo equipoliga
+        Object oEquipoLiga_grp is a cWebGroup
+            Set piColumnIndex to 0
+            Set piColumnCount to 6
+            Set piColumnSpan to 6
+            Set pbShowBorder to True
+            
+            // Equipo
+            Object oEquipoNombre is a cWebForm
+                Entry_Item equipo.Nombre
+                Set piColumnSpan to 6
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpTop
+                Set psLabel to "Equipo:"
+                Set pbPromptButton to True
+
+                WebRegisterPath ntNavigateForward oSelectEquipo
+
+                Procedure OnPrompt
+                    Send NavigatePath
+                End_Procedure
+            End_Object
+    
+            // Liga
+            Object oLigaNombre is a cWebForm
+                Entry_Item liga.Nombre
+                Set piColumnSpan to 6
+                Set piColumnIndex to 0
+                Set peLabelPosition to lpTop
+                Set psLabel to "Liga:"
+                Set pbPromptButton to True
+
+                WebRegisterPath ntNavigateForward oSelectLiga
+
+                Procedure OnPrompt
+                    Send NavigatePath
+                End_Procedure
+            End_Object
+                
+        End_Object
+        
+        // Grupo de nacionalidad
+        Object oNacionalidad_grp is a cWebGroup
+            Set piColumnIndex to 6
+            Set piColumnSpan to 6
+            Set piColumnCount to 6
+            Set pbShowBorder to True
+            
+            Object oNacionalidad is a cWebForm
+                Entry_Item entrenador.Nacionalidad
+                Set piColumnSpan to 6
+                Set peLabelPosition to lpTop
+                Set psLabel to "Nacionalidad:"
+            End_Object
+    
+        End_Object
+    End_Object
+    // Grupo de acciones
+    Object oActionGroup is a cWebMenuGroup
+    
+        Object oSaveBtn is a cWebMenuItem
+            Set psCSSClass to "WebSaveMenuItem"
+            Set psCaption to "Save"
+    
+            Procedure OnClick
+                Send Request_Save
+            End_Procedure
+        End_Object
+    
+        Object oEditBtn is a cWebMenuItem
+            Set psCSSClass to "WebEditMenuItem"
+            Set psCaption to "Edit"
+    
+            Procedure OnClick
+                Send ChangeEditMode True
+                Send SetActionButtons
+            End_Procedure
+        End_Object
+    
+        Object oDeleteBtn is a cWebMenuItem
+            Set psCSSClass to "WebDeleteMenuItem"
+            Set psCaption to "Delete"
+            Set peActionDisplay to adMenu
+    
+            Procedure OnClick
+                Send Request_Delete
+            End_Procedure
+        End_Object
+    
+        Object oCancelChangesBtn is a cWebMenuItem
+            Set psCSSClass to "WebIcon_Refresh"
+            Set psCaption to "Clear Changes"
+            Set peActionDisplay to adMenu
+    
+            Procedure OnClick
+                Send RefreshRecord
+            End_Procedure
+        End_Object
+        
+        //botones
+        Procedure SetActionButtons
+        tWebNavigateData NavigateData
+        Boolean bHasRecord
+        Handle hoDD
+    
+        Get Server to hoDD
+        Get GetNavigateData to NavigateData
+        Get HasRecord of hoDD to bHasRecord
+    
+        WebSet pbRender of oEditBtn to False
+        WebSet pbRender of oSaveBtn to False
+        WebSet pbRender of oCancelChangesBtn to False
+        WebSet pbRender of oDeleteBtn to False
+    
+        If (NavigateData.bReadOnly) Begin
+            WebSet pbRender of oEditBtn to True
+        End
+        Else Begin
+            WebSet pbRender of oSaveBtn to True
+            WebSet pbRender of oCancelChangesBtn to True
+            WebSet pbRender of oDeleteBtn to bHasRecord
+        End
+        End_Procedure
+    End_Object
+    
+        Procedure OnViewSaved Handle hoServer Boolean bChanged
+            Send NavigateClose Self
+        End_Procedure
+    
+        Procedure OnViewDeleted Handle hoDDO
+            Send NavigateClose Self
+        End_Procedure
 
 End_Object
