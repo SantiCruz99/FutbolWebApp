@@ -4,7 +4,7 @@ Use cWebForm.pkg
 
 Object oSelectLiga is a cWebView
     Set piWidth to 700
-    Set psCaption to "seleccionar liga"
+    Set psCaption to "Seleccionar liga"
 
     // Your DDO structure will go here
 
@@ -16,7 +16,7 @@ Object oSelectLiga is a cWebView
         
         Object oForm is a cWebForm
             Set piColumnSpan to 0
-            Set psLabel to "Label 1:"
+            Set psLabel to "Liga 1:"
         End_Object
         
     End_Object 
