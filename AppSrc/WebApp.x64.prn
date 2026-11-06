@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 9199644672
+Memory Available: 14189535232
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -1496,8 +1496,8 @@ Including file: Dashboard.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Dashbo
 37438>>>        WebSetResponsive piColumnCount rmTabletPortrait to 16
 37439>>>
 37439>>>        Object oTiles_grp is a cWebGroup
-37441>>>            Set piColumnSpan to 8
-37442>>>            Set pbShowBorder to False
+37441>>>            Set piColumnSpan to 12
+37442>>>            Set pbShowBorder to True
 37443>>>            Set pbShowCaption to False
 37444>>>            Set piColumnCount to 12
 37445>>>            Set psCSSClass to "TilesGroup"
@@ -2171,7 +2171,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 38012>Send StartWebApp of oWebApp
 38013>
 Summary
-Memory Available: 9192202240
+Memory Available: 14109294592
 Total Warnings : 0
 Total Errors   : 0
 Total Symbols  : 25331
