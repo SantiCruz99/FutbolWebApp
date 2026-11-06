@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 16347975680
+Memory Available: 16345153536
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -1611,7 +1611,7 @@ Including file: ZoomEntrenador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Z
 37559>>>        
 37559>>>        Object oForm is a cWebForm
 37561>>>            Set piColumnSpan to 0
-37562>>>            Set psLabel to "Label 1:"
+37562>>>            Set psLabel to "Nombre:"
 37563>>>        End_Object
 37564>>>        
 37564>>>    End_Object 
@@ -1789,7 +1789,7 @@ Including file: liga.fd    (C:\DataFlex Projects\FutbolWebApp\DDSrc\liga.fd)
 37693>>>>>End_Class
 37694>>>
 37694>>>Object oZoomEquipo is a cWebView
-37696>>>    Set piWidth to 700
+37696>>>    Set piWidth to 900
 37697>>>    Set psCaption to "Equipo"
 37698>>>
 37698>>>    Object oEquipo_DD is a cequipoDataDictionary
@@ -2171,7 +2171,7 @@ Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Selec
 38012>Send StartWebApp of oWebApp
 38013>
 Summary
-Memory Available: 16325705728
+Memory Available: 16346877952
 Total Warnings : 0
 Total Errors   : 0
 Total Symbols  : 25331
@@ -2179,6 +2179,6 @@ Total Resources: 0
 Total Commands : 38012
 Total Windows  : 0
 Total Pages    : 0
-Static Data    : 472801
+Static Data    : 472797
 Message area   : 252967
 Total Blocks   : 16988
