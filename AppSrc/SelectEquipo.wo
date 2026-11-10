@@ -13,6 +13,11 @@ Object oSelectEquipo is a cWebView
 
     Set Main_DD to oEquipo_DD
 
+    Procedure OnLoad
+        Forward Send OnLoad
+        Send Find of oEquipo_DD FIRST_RECORD 1
+    End_Procedure
+
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
 
