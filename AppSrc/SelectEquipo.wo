@@ -8,10 +8,53 @@ Object oSelectEquipo is a cWebView
     Set piWidth to 800
     Set psCaption to "Seleccionar Equipo"
 
+    // Definimos una propiedad normal (sin { WebProperty=True })
+    Property String psLigaID ""
+
     Object oEquipo_DD is a cequipoDataDictionary
+        
+        Procedure Constrain
+            Forward Send Constrain
+            String sLigaID
+            
+            // Leemos la propiedad directamente desde la vista contenedora
+            Get psLigaID of oSelectEquipo to sLigaID
+            
+            // Si hay un ID de liga válido, filtramos los equipos
+            If (sLigaID <> "") Begin
+                Constrain equipo.LigaID eq sLigaID
+            End
+        End_Procedure
+
     End_Object
 
     Set Main_DD to oEquipo_DD
+
+    // Capturamos el parámetro que viene desde oSelectLiga al navegar
+    Procedure OnNavigateForward tWebNavigateData NavigateData
+        String sLigaID
+        
+        Forward Send OnNavigateForward NavigateData
+
+        // Obtenemos el valor "LigaID" enviado en la navegación
+        Get NamedValueGet NavigateData.NamedValues "LigaID" to sLigaID
+        
+        // Guardamos el valor en la propiedad de la vista
+        Set psLigaID to sLigaID
+        
+        // Forzamos a que el DD reconstruya las restricciones y refresque los datos
+        Send RebuildAllConstraints of oEquipo_DD
+        Send Clear of oEquipo_DD
+        Send Find of oEquipo_DD FIRST_RECORD 1
+    End_Procedure
+
+    Procedure OnLoad
+        Forward Send OnLoad
+        // Si se entra sin parámetros (ej. desde el Dashboard), limpiamos el filtro
+        Set psLigaID to ""
+        Send RebuildAllConstraints of oEquipo_DD
+        Send Find of oEquipo_DD FIRST_RECORD 1
+    End_Procedure
 
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
@@ -38,6 +81,8 @@ Object oSelectEquipo is a cWebView
                 Set psCaption to "Liga ID"
                 Set piWidth to 30
             End_Object
+
         End_Object
     End_Object
+
 End_Object

@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 17745031168
+Memory Available: 16926339072
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -2271,125 +2271,176 @@ Including file: SelectEquipo.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Sel
 38130>>>    Set piWidth to 800
 38131>>>    Set psCaption to "Seleccionar Equipo"
 38132>>>
-38132>>>    Object oEquipo_DD is a cequipoDataDictionary
-38134>>>    End_Object
-38135>>>
-38135>>>    Set Main_DD to oEquipo_DD
-38136>>>
-38136>>>    Object oWebMainPanel is a cWebPanel
-38138>>>        Set piColumnCount to 12
-38139>>>
-38139>>>        Object oEquipoList is a cWebList
-38141>>>            Set piColumnSpan to 8
-38142>>>            Set pbFillHeight to True
-38143>>>            Set Server to oEquipo_DD
-38144>>>
-38144>>>            Object oID is a cWebColumn
-38146>>>                Entry_Item equipo.ID
-38147>>>                Set psCaption to "ID"
-38148>>>                Set piWidth to 20
-38149>>>            End_Object
-38150>>>
-38150>>>            Object oNombre is a cWebColumn
-38152>>>                Entry_Item equipo.Nombre
-38153>>>                Set psCaption to "Nombre"
-38154>>>                Set piWidth to 50
-38155>>>            End_Object
-38156>>>
-38156>>>            Object oLigaID is a cWebColumn
-38158>>>                Entry_Item equipo.LigaID
-38159>>>                Set psCaption to "Liga ID"
-38160>>>                Set piWidth to 30
-38161>>>            End_Object
-38162>>>        End_Object
-38163>>>    End_Object
-38164>>>End_Object
-38165>    Use SelectLiga.wo
-Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectLiga.wo)
-38165>>>Use cWebView.pkg
-38165>>>Use cWebPanel.pkg
-38165>>>Use cWebList.pkg
-38165>>>Use cWebColumn.pkg
-38165>>>Use cligaDataDictionary.dd
-38165>>>
-38165>>>Object oSelectLiga is a cWebView
-38167>>>    Set piWidth to 900
-38168>>>    Set psCaption to "Seleccionar liga"
+38132>>>    // Definimos una propiedad normal (sin { WebProperty=True })
+38132>>>    Property String psLigaID ""
+38134>>>
+38134>>>    Object oEquipo_DD is a cequipoDataDictionary
+38136>>>        
+38136>>>        Procedure Constrain
+38139>>>            Forward Send Constrain
+38141>>>            String sLigaID
+38141>>>            
+38141>>>            // Leemos la propiedad directamente desde la vista contenedora
+38141>>>            Get psLigaID of oSelectEquipo to sLigaID
+38142>>>            
+38142>>>            // Si hay un ID de liga válido, filtramos los equipos
+38142>>>            If (sLigaID <> "") Begin
+38144>>>                Constrain equipo.LigaID eq sLigaID
+38146>>>            End
+38146>>>>
+38146>>>        End_Procedure
+38147>>>
+38147>>>    End_Object
+38148>>>
+38148>>>    Set Main_DD to oEquipo_DD
+38149>>>
+38149>>>    // Capturamos el parámetro que viene desde oSelectLiga al navegar
+38149>>>    Procedure OnNavigateForward tWebNavigateData NavigateData
+38152>>>        String sLigaID
+38152>>>        
+38152>>>        Forward Send OnNavigateForward NavigateData
+38154>>>
+38154>>>        // Obtenemos el valor "LigaID" enviado en la navegación
+38154>>>        Get NamedValueGet NavigateData.NamedValues "LigaID" to sLigaID
+38155>>>        
+38155>>>        // Guardamos el valor en la propiedad de la vista
+38155>>>        Set psLigaID to sLigaID
+38156>>>        
+38156>>>        // Forzamos a que el DD reconstruya las restricciones y refresque los datos
+38156>>>        Send RebuildAllConstraints of oEquipo_DD
+38157>>>        Send Clear of oEquipo_DD
+38158>>>        Send Find of oEquipo_DD FIRST_RECORD 1
+38159>>>    End_Procedure
+38160>>>
+38160>>>    Procedure OnLoad
+38163>>>        Forward Send OnLoad
+38165>>>        // Si se entra sin parámetros (ej. desde el Dashboard), limpiamos el filtro
+38165>>>        Set psLigaID to ""
+38166>>>        Send RebuildAllConstraints of oEquipo_DD
+38167>>>        Send Find of oEquipo_DD FIRST_RECORD 1
+38168>>>    End_Procedure
 38169>>>
-38169>>>    // Your DDO structure will go here
-38169>>>    Object oLiga_DD is a cligaDataDictionary
-38171>>>    End_Object
+38169>>>    Object oWebMainPanel is a cWebPanel
+38171>>>        Set piColumnCount to 12
 38172>>>
-38172>>>    Set Main_DD to oLiga_DD
-38173>>>
-38173>>>    Procedure OnLoad
-38176>>>        Forward Send OnLoad
-38178>>>        Send Find of oLiga_DD FIRST_RECORD 1
-38179>>>    End_Procedure
-38180>>>
-38180>>>    Object oWebMainPanel is a cWebPanel
-38182>>>        Set piColumnCount to 12
-38183>>>        
-38183>>>        // place controls here
-38183>>>        // Your view will grow as controls are added
-38183>>>        
-38183>>>        Object oLigaList is a cWebList
-38185>>>            Set piColumnSpan to 12
-38186>>>            Set pbFillHeight to True
-38187>>>            Set Server to oLiga_DD
-38188>>>            Set pbServerOnRowClick to True
+38172>>>        Object oEquipoList is a cWebList
+38174>>>            Set piColumnSpan to 8
+38175>>>            Set pbFillHeight to True
+38176>>>            Set Server to oEquipo_DD
+38177>>>
+38177>>>            Object oID is a cWebColumn
+38179>>>                Entry_Item equipo.ID
+38180>>>                Set psCaption to "ID"
+38181>>>                Set piWidth to 20
+38182>>>            End_Object
+38183>>>
+38183>>>            Object oNombre is a cWebColumn
+38185>>>                Entry_Item equipo.Nombre
+38186>>>                Set psCaption to "Nombre"
+38187>>>                Set piWidth to 50
+38188>>>            End_Object
 38189>>>
-38189>>>            WebRegisterPath ntNavigateForward oSelectEquipo
+38189>>>            Object oLigaID is a cWebColumn
+38191>>>                Entry_Item equipo.LigaID
+38192>>>                Set psCaption to "Liga ID"
+38193>>>                Set piWidth to 30
+38194>>>            End_Object
 38195>>>
-38195>>>            Object oID is a cWebColumn
-38197>>>                Entry_Item liga.ID
-38198>>>                Set psCaption to "ID"
-38199>>>                Set piWidth to 15
-38200>>>            End_Object
-38201>>>
-38201>>>            Object oNombre is a cWebColumn
-38203>>>                Entry_Item liga.Nombre
-38204>>>                Set psCaption to "Nombre"
-38205>>>                Set piWidth to 35
-38206>>>            End_Object
-38207>>>
-38207>>>            Object oPais is a cWebColumn
-38209>>>                Entry_Item liga.Pais
-38210>>>                Set psCaption to "País"
-38211>>>                Set piWidth to 25
-38212>>>            End_Object
+38195>>>        End_Object
+38196>>>    End_Object
+38197>>>
+38197>>>End_Object
+38198>    Use SelectLiga.wo
+Including file: SelectLiga.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectLiga.wo)
+38198>>>
+38198>>>Use cWebView.pkg
+38198>>>Use cWebPanel.pkg
+38198>>>Use cWebList.pkg
+38198>>>Use cWebColumn.pkg
+38198>>>Use cligaDataDictionary.dd
+38198>>>
+38198>>>Object oSelectLiga is a cWebView
+38200>>>    Set piWidth to 900
+38201>>>    Set psCaption to "Seleccionar liga"
+38202>>>
+38202>>>    Object oLiga_DD is a cligaDataDictionary
+38204>>>    End_Object
+38205>>>
+38205>>>    Set Main_DD to oLiga_DD
+38206>>>
+38206>>>    Procedure OnLoad
+38209>>>        Forward Send OnLoad
+38211>>>        Send Find of oLiga_DD FIRST_RECORD 1
+38212>>>    End_Procedure
 38213>>>
-38213>>>            Object oEquipos is a cWebColumn
-38215>>>                Entry_Item liga.Equipos
-38216>>>                Set psCaption to "Equipos"
-38217>>>                Set piWidth to 25
-38218>>>            End_Object
-38219>>>
-38219>>>            Procedure OnRowClick String sRowID
-38222>>>                Send NavigateForward of oSelectEquipo Self
-38223>>>            End_Procedure
-38224>>>
-38224>>>        End_Object
-38225>>>        
-38225>>>    End_Object 
-38226>>>
-38226>>>End_Object
-38227>
-38227>    Set phoDefaultView to oDashboard
-38228>
-38228>End_Object
-38229>
-38229>Send StartWebApp of oWebApp
-38230>
+38213>>>    Object oWebMainPanel is a cWebPanel
+38215>>>        Set piColumnCount to 12
+38216>>>        
+38216>>>        Object oLigaList is a cWebList
+38218>>>            Set piColumnSpan to 12
+38219>>>            Set pbFillHeight to True
+38220>>>            Set Server to oLiga_DD
+38221>>>            Set pbServerOnRowClick to True
+38222>>>
+38222>>>            WebRegisterPath ntNavigateForward oSelectEquipo
+38228>>>
+38228>>>            Object oID is a cWebColumn
+38230>>>                Entry_Item liga.ID
+38231>>>                Set psCaption to "ID"
+38232>>>                Set piWidth to 15
+38233>>>            End_Object
+38234>>>
+38234>>>            Object oNombre is a cWebColumn
+38236>>>                Entry_Item liga.Nombre
+38237>>>                Set psCaption to "Nombre"
+38238>>>                Set piWidth to 35
+38239>>>            End_Object
+38240>>>
+38240>>>            Object oPais is a cWebColumn
+38242>>>                Entry_Item liga.Pais
+38243>>>                Set psCaption to "País"
+38244>>>                Set piWidth to 25
+38245>>>            End_Object
+38246>>>
+38246>>>            Object oEquipos is a cWebColumn
+38248>>>                Entry_Item liga.Equipos
+38249>>>                Set psCaption to "Equipos"
+38250>>>                Set piWidth to 25
+38251>>>            End_Object
+38252>>>
+38252>>>            Procedure OnRowClick String sRowID
+38255>>>                Send NavigatePath
+38256>>>            End_Procedure
+38257>>>
+38257>>>            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+38260>>>                String sLigaID
+38260>>>
+38260>>>                Move (String(liga.ID)) to sLigaID
+38261>>>
+38261>>>                Get NamedValueAdd NavigateData.NamedValues "LigaID" sLigaID to NavigateData.NamedValues
+38262>>>            End_Procedure
+38263>>>
+38263>>>        End_Object
+38264>>>        
+38264>>>    End_Object  
+38265>>>
+38265>>>End_Object
+38266>
+38266>    Set phoDefaultView to oDashboard
+38267>
+38267>End_Object
+38268>
+38268>Send StartWebApp of oWebApp
+38269>
 Summary
-Memory Available: 17717964800
+Memory Available: 16914468864
 Total Warnings : 0
 Total Errors   : 0
-Total Symbols  : 25381
+Total Symbols  : 25393
 Total Resources: 0
-Total Commands : 38229
+Total Commands : 38268
 Total Windows  : 0
 Total Pages    : 0
-Static Data    : 474671
-Message area   : 255503
-Total Blocks   : 17063
+Static Data    : 475009
+Message area   : 255755
+Total Blocks   : 17075
