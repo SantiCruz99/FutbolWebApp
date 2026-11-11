@@ -1,4 +1,5 @@
-﻿Use cWebView.pkg
+﻿
+Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebList.pkg
 Use cWebColumn.pkg
@@ -8,7 +9,6 @@ Object oSelectLiga is a cWebView
     Set piWidth to 900
     Set psCaption to "Seleccionar liga"
 
-    // Your DDO structure will go here
     Object oLiga_DD is a cligaDataDictionary
     End_Object
 
@@ -21,9 +21,6 @@ Object oSelectLiga is a cWebView
 
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
-        
-        // place controls here
-        // Your view will grow as controls are added
         
         Object oLigaList is a cWebList
             Set piColumnSpan to 12
@@ -58,11 +55,19 @@ Object oSelectLiga is a cWebView
             End_Object
 
             Procedure OnRowClick String sRowID
-                Send NavigateForward of oSelectEquipo Self
+                Send NavigatePath
+            End_Procedure
+
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                String sLigaID
+
+                Move (String(liga.ID)) to sLigaID
+
+                Get NamedValueAdd NavigateData.NamedValues "LigaID" sLigaID to NavigateData.NamedValues
             End_Procedure
 
         End_Object
         
-    End_Object 
+    End_Object  
 
 End_Object

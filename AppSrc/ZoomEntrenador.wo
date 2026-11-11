@@ -1,30 +1,44 @@
 ﻿Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebForm.pkg
+Use cWebGroup.pkg
+Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use centrenadorDataDictionary.dd
+Use cequipoDataDictionary.dd
+Use cligaDataDictionary.dd
 
 Object oZoomEntrenador is a cWebView
     Set piWidth to 700
     Set psCaption to "Entrenador"
+    Set peViewType to vtZoom
+    Set piMaxWidth to 1024
 
-    // Data Dictionary
-    Object oEntrenador_DD is a centrenadorDataDictionary
+    // Declaración de Data Dictionaries en cascada
+    Object oLiga_DD is a cligaDataDictionary
     End_Object
 
-    Set Main_DD to oEntrenador_DD
+    Object oEquipo_DD is a cequipoDataDictionary
+        Set DDO_Server to oLiga_DD
+    End_Object
 
-    // Panel principal
+    Object oEntrenador_DD is a centrenadorDataDictionary
+        Set DDO_Server to oEquipo_DD
+    End_Object
+
+    // Asignación obligatoria para que la vista enlace los datos con los formularios
+    Set Main_DD to oEntrenador_DD
+    Set Server to oEntrenador_DD
+
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
         WebSetResponsive piColumnCount rmMobile to 4
-        //Datos
+
         Object odatos_grp is a cWebGroup
             Set piColumnSpan to 12
             Set pbShowBorder to True
             Set piColumnCount to 12
-            
-            // Nombre
+
             Object oNombre is a cWebForm
                 Entry_Item entrenador.Nombre
                 Set piColumnSpan to 6
@@ -32,8 +46,7 @@ Object oZoomEntrenador is a cWebView
                 Set peLabelPosition to lpTop
                 Set psLabel to "Nombre:"
             End_Object
-    
-            // Apellido
+
             Object oApellido is a cWebForm
                 Entry_Item entrenador.Apellido
                 Set piColumnSpan to 6
@@ -42,121 +55,104 @@ Object oZoomEntrenador is a cWebView
                 Set psLabel to "Apellido:"
             End_Object
         End_Object
-        
-        //Grupo equipoliga
+
         Object oEquipoLiga_grp is a cWebGroup
             Set piColumnIndex to 0
             Set piColumnCount to 6
             Set piColumnSpan to 6
             Set pbShowBorder to True
-            
-            // Equipo
+
             Object oEquipoNombre is a cWebForm
                 Entry_Item equipo.Nombre
                 Set piColumnSpan to 6
                 Set piColumnIndex to 0
                 Set peLabelPosition to lpTop
                 Set psLabel to "Equipo:"
-                Set pbPromptButton to True
-
-                WebRegisterPath ntNavigateForward oSelectEquipo
-
-                Procedure OnPrompt
-                    Send NavigatePath
-                End_Procedure
             End_Object
-    
-            // Liga
+
             Object oLigaNombre is a cWebForm
                 Entry_Item liga.Nombre
                 Set piColumnSpan to 6
                 Set piColumnIndex to 0
                 Set peLabelPosition to lpTop
                 Set psLabel to "Liga:"
-                Set pbPromptButton to True
-
-                WebRegisterPath ntNavigateForward oSelectLiga
-
-                Procedure OnPrompt
-                    Send NavigatePath
-                End_Procedure
             End_Object
-                
         End_Object
-        
-        // Grupo de nacionalidad
+
         Object oNacionalidad_grp is a cWebGroup
             Set piColumnIndex to 6
             Set piColumnSpan to 6
             Set piColumnCount to 6
             Set pbShowBorder to True
-            
+
             Object oNacionalidad is a cWebForm
                 Entry_Item entrenador.Nacionalidad
                 Set piColumnSpan to 6
                 Set peLabelPosition to lpTop
                 Set psLabel to "Nacionalidad:"
             End_Object
-    
         End_Object
+
     End_Object
-    // Grupo de acciones
+
     Object oActionGroup is a cWebMenuGroup
-    
+
         Object oSaveBtn is a cWebMenuItem
             Set psCSSClass to "WebSaveMenuItem"
             Set psCaption to "Save"
-    
+
             Procedure OnClick
-                Send Request_Save
+                Send Request_Save of oZoomEntrenador
             End_Procedure
         End_Object
-    
+
         Object oEditBtn is a cWebMenuItem
             Set psCSSClass to "WebEditMenuItem"
             Set psCaption to "Edit"
-    
+
             Procedure OnClick
-                Send ChangeEditMode True
-                Send SetActionButtons
+                Send ChangeEditMode of oZoomEntrenador True
+                Send SetActionButtons of oZoomEntrenador
             End_Procedure
         End_Object
-    
+
         Object oDeleteBtn is a cWebMenuItem
             Set psCSSClass to "WebDeleteMenuItem"
             Set psCaption to "Delete"
             Set peActionDisplay to adMenu
-    
+
             Procedure OnClick
-                Send Request_Delete
+                Send Request_Delete of oZoomEntrenador
             End_Procedure
         End_Object
-    
+
         Object oCancelChangesBtn is a cWebMenuItem
             Set psCSSClass to "WebIcon_Refresh"
             Set psCaption to "Clear Changes"
             Set peActionDisplay to adMenu
-    
+
             Procedure OnClick
-                Send RefreshRecord
+                Send RefreshRecord of oZoomEntrenador
             End_Procedure
         End_Object
-        
-        //botones
-        Procedure SetActionButtons
+
+    End_Object
+
+    Procedure SetActionButtons
         tWebNavigateData NavigateData
         Boolean bHasRecord
-        Handle hoDD
-    
-        Get Server to hoDD
+        Integer iRecord
+
         Get GetNavigateData to NavigateData
-        Get HasRecord of hoDD to bHasRecord
-    
+        Get Current_Record of oEntrenador_DD to iRecord
+        Move (iRecord <> 0) to bHasRecord
+
+        // Ocultamos todos los botones por defecto y mostramos los necesarios según el estado
         WebSet pbRender of oEditBtn to False
         WebSet pbRender of oSaveBtn to False
         WebSet pbRender of oCancelChangesBtn to False
         WebSet pbRender of oDeleteBtn to False
-    
+
         If (NavigateData.bReadOnly) Begin
             WebSet pbRender of oEditBtn to True
         End
@@ -165,15 +161,34 @@ Object oZoomEntrenador is a cWebView
             WebSet pbRender of oCancelChangesBtn to True
             WebSet pbRender of oDeleteBtn to bHasRecord
         End
-        End_Procedure
-    End_Object
-    
-        Procedure OnViewSaved Handle hoServer Boolean bChanged
-            Send NavigateClose Self
-        End_Procedure
-    
-        Procedure OnViewDeleted Handle hoDDO
-            Send NavigateClose Self
-        End_Procedure
+    End_Procedure
+
+    Procedure OnNavigateForward tWebNavigateData NavigateData
+        String sRowId
+        RowID riEntrenador
+
+        Forward Send OnNavigateForward NavigateData
+
+        // Recuperamos el RowId enviado desde la lista de selección y buscamos el registro
+        Get NamedValueGet NavigateData.NamedValues "EntrenadorRowId" to sRowId
+        If (sRowId <> "") Begin
+            Move (DeserializeRowId(sRowId)) to riEntrenador
+            Send FindByRowId of oEntrenador_DD entrenador.File_Number riEntrenador
+            Send Request_Assign of oEntrenador_DD
+        End
+
+        Send ChangeEditMode False
+        Send SetActionButtons
+    End_Procedure
+
+    // Cierra la vista automáticamente al guardar
+    Procedure OnViewSaved Handle hoServer Boolean bChanged
+        Send NavigateClose Self
+    End_Procedure
+
+    // Cierra la vista automáticamente al eliminar
+    Procedure OnViewDeleted Handle hoDDO
+        Send NavigateClose Self
+    End_Procedure
 
 End_Object

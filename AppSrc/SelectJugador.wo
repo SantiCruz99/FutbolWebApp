@@ -6,18 +6,14 @@ Use cWebColumn.pkg
 Use cjugadorDataDictionary.dd
 
 Object oSelectJugador is a cWebView
-    Set piWidth to 900
+    Set piWidth to 700
     Set psCaption to "Seleccionar Jugador"
+    Set peViewType to vtSelect
 
     Object oJugador_DD is a cjugadorDataDictionary
     End_Object
 
     Set Main_DD to oJugador_DD
-
-    Procedure OnLoad
-        Forward Send OnLoad
-        Send Find of oJugador_DD FIRST_RECORD 1
-    End_Procedure
 
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
@@ -26,6 +22,10 @@ Object oSelectJugador is a cWebView
             Set piColumnSpan to 12
             Set pbFillHeight to True
             Set Server to oJugador_DD
+            Set pbServerOnRowClick to True
+
+            // Registramos la ruta de navegación hacia la vista de detalle/zoom
+            WebRegisterPath ntNavigateForward oZoomJugador
 
             Object oID is a cWebColumn
                 Entry_Item jugador.ID
@@ -36,26 +36,37 @@ Object oSelectJugador is a cWebView
             Object oNombre is a cWebColumn
                 Entry_Item jugador.Nombre
                 Set psCaption to "Nombre"
-                Set piWidth to 25
+                Set piWidth to 30
             End_Object
 
             Object oApellido is a cWebColumn
                 Entry_Item jugador.Apellido
                 Set psCaption to "Apellido"
-                Set piWidth to 25
+                Set piWidth to 30
             End_Object
 
             Object oNacionalidad is a cWebColumn
                 Entry_Item jugador.Nacionalidad
                 Set psCaption to "Nacionalidad"
-                Set piWidth to 12
+                Set piWidth to 30
             End_Object
 
-            Object oEquipoID is a cWebColumn
-                Entry_Item jugador.EquipoID
-                Set psCaption to "Equipo ID"
-                Set piWidth to 20
-            End_Object
+            // Al hacer clic en la fila, ejecutamos la navegación
+            Procedure OnRowClick String sRowID
+                Send NavigatePath
+            End_Procedure
+
+            // Pasamos el RowId del jugador seleccionado a la vista de destino
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                RowID riJugador
+                String sRowId
+
+                Forward Send OnGetNavigateForwardData (&NavigateData) hoToView
+
+                Get CurrentRowId of oJugador_DD to riJugador
+                Move (SerializeRowId(riJugador)) to sRowId
+                Get NamedValueAdd NavigateData.NamedValues "JugadorRowId" sRowId to NavigateData.NamedValues
+            End_Procedure
 
         End_Object
     End_Object
