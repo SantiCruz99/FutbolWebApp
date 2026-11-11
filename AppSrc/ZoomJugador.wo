@@ -1,5 +1,4 @@
-﻿
-Use cWebView.pkg
+﻿Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebForm.pkg
 Use cWebMenuItem.pkg
@@ -12,8 +11,10 @@ Use cligaDataDictionary.dd
 Object oZoomJugador is a cWebView
     Set piWidth to 700
     Set psCaption to "Jugador"
+    Set peViewType to vtZoom
+    Set piMaxWidth to 1024
 
-    // Data Dictionaries relacionados: Jugador -> Equipo -> Liga
+    // Data Dictionaries relacionados en cascada: Liga <- Equipo <- Jugador
     Object oLiga_DD is a cligaDataDictionary
     End_Object
 
@@ -25,7 +26,9 @@ Object oZoomJugador is a cWebView
         Set DDO_Server to oEquipo_DD
     End_Object
 
+    // Asignación obligatoria para que la vista enlace los datos con los formularios
     Set Main_DD to oJugador_DD
+    Set Server to oJugador_DD
 
     // Panel principal con los campos del formulario
     Object oWebMainPanel is a cWebPanel
@@ -96,7 +99,7 @@ Object oZoomJugador is a cWebView
             Set psCaption to "Save"
 
             Procedure OnClick
-                Send Request_Save
+                Send Request_Save of oZoomJugador
             End_Procedure
         End_Object
 
@@ -105,8 +108,8 @@ Object oZoomJugador is a cWebView
             Set psCaption to "Edit"
 
             Procedure OnClick
-                Send ChangeEditMode True
-                Send SetActionButtons
+                Send ChangeEditMode of oZoomJugador True
+                Send SetActionButtons of oZoomJugador
             End_Procedure
         End_Object
 
@@ -116,7 +119,7 @@ Object oZoomJugador is a cWebView
             Set peActionDisplay to adMenu
 
             Procedure OnClick
-                Send Request_Delete
+                Send Request_Delete of oZoomJugador
             End_Procedure
         End_Object
 
@@ -126,48 +129,62 @@ Object oZoomJugador is a cWebView
             Set peActionDisplay to adMenu
 
             Procedure OnClick
-                Send RefreshRecord
-                Send SetActionButtons
+                Send RefreshRecord of oZoomJugador
+                Send SetActionButtons of oZoomJugador
             End_Procedure
         End_Object
 
-        Procedure SetActionButtons
-            tWebNavigateData NavigateData
-            Boolean bHasRecord
-            Handle hoDD
-
-            Get Server to hoDD
-            Get GetNavigateData to NavigateData
-            Get HasRecord of hoDD to bHasRecord
-
-            WebSet pbRender of oEditBtn to False
-            WebSet pbRender of oSaveBtn to False
-            WebSet pbRender of oCancelChangesBtn to False
-            WebSet pbRender of oDeleteBtn to False
-
-            If (NavigateData.bReadOnly) Begin
-                WebSet pbRender of oEditBtn to True
-            End
-            Else Begin
-                WebSet pbRender of oSaveBtn to True
-                WebSet pbRender of oCancelChangesBtn to True
-                WebSet pbRender of oDeleteBtn to bHasRecord
-            End
-        End_Procedure
-
     End_Object
 
-    // Actualizar los botones al entrar en la vista
-    Procedure OnNavigateForward tWebNavigateData NavigateData Integer hoInvokingView Integer hoInvokingObject
-        Forward Send OnNavigateForward NavigateData hoInvokingView hoInvokingObject
+    Procedure SetActionButtons
+        tWebNavigateData NavigateData
+        Boolean bHasRecord
+        Handle hoDD
 
-        Send SetActionButtons of oActionGroup
+        Get Server to hoDD
+        Get GetNavigateData to NavigateData
+        Get HasRecord of hoDD to bHasRecord
+
+        // Ocultamos todos los botones por defecto y mostramos los necesarios según el estado
+        WebSet pbRender of oEditBtn to False
+        WebSet pbRender of oSaveBtn to False
+        WebSet pbRender of oCancelChangesBtn to False
+        WebSet pbRender of oDeleteBtn to False
+
+        If (NavigateData.bReadOnly) Begin
+            WebSet pbRender of oEditBtn to True
+        End
+        Else Begin
+            WebSet pbRender of oSaveBtn to True
+            WebSet pbRender of oCancelChangesBtn to True
+            WebSet pbRender of oDeleteBtn to bHasRecord
+        End
     End_Procedure
 
+    // Capturamos el ID del jugador seleccionado y cargamos sus datos en el Zoom
+    Procedure OnNavigateForward tWebNavigateData NavigateData
+        String sRowId
+        RowID riJugador
+
+        Forward Send OnNavigateForward NavigateData
+
+        Get NamedValueGet NavigateData.NamedValues "JugadorRowId" to sRowId
+        If (sRowId <> "") Begin
+            Move (DeserializeRowId(sRowId)) to riJugador
+            Send FindByRowId of oJugador_DD jugador.File_Number riJugador
+            Send Request_Assign of oJugador_DD
+        End
+
+        Send ChangeEditMode False
+        Send SetActionButtons
+    End_Procedure
+
+    // Cierra la vista automáticamente al guardar
     Procedure OnViewSaved Handle hoServer Boolean bChanged
         Send NavigateClose Self
     End_Procedure
 
+    // Cierra la vista automáticamente al eliminar
     Procedure OnViewDeleted Handle hoDDO
         Send NavigateClose Self
     End_Procedure

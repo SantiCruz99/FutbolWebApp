@@ -8,16 +8,12 @@ Use cjugadorDataDictionary.dd
 Object oSelectJugador is a cWebView
     Set piWidth to 700
     Set psCaption to "Seleccionar Jugador"
+    Set peViewType to vtSelect
 
     Object oJugador_DD is a cjugadorDataDictionary
     End_Object
 
     Set Main_DD to oJugador_DD
-
-    Procedure OnLoad
-        Forward Send OnLoad
-        Send Find of oJugador_DD FIRST_RECORD 1
-    End_Procedure
 
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
@@ -27,6 +23,9 @@ Object oSelectJugador is a cWebView
             Set pbFillHeight to True
             Set Server to oJugador_DD
             Set pbServerOnRowClick to True
+
+            // Registramos la ruta de navegación hacia la vista de detalle/zoom
+            WebRegisterPath ntNavigateForward oZoomJugador
 
             Object oID is a cWebColumn
                 Entry_Item jugador.ID
@@ -52,17 +51,23 @@ Object oSelectJugador is a cWebView
                 Set piWidth to 30
             End_Object
 
-            // Abrir directamente el jugador seleccionado
+            // Al hacer clic en la fila, ejecutamos la navegación
             Procedure OnRowClick String sRowID
-                Send NavigateForward of oZoomJugador Self
+                Send NavigatePath
             End_Procedure
 
-            // Abrir el detalle en modo lectura
+            // Pasamos el RowId del jugador seleccionado a la vista de destino
             Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
-                Move True to NavigateData.bReadOnly
+                RowID riJugador
+                String sRowId
+
+                Forward Send OnGetNavigateForwardData (&NavigateData) hoToView
+
+                Get CurrentRowId of oJugador_DD to riJugador
+                Move (SerializeRowId(riJugador)) to sRowId
+                Get NamedValueAdd NavigateData.NamedValues "JugadorRowId" sRowId to NavigateData.NamedValues
             End_Procedure
 
         End_Object
     End_Object
-
 End_Object

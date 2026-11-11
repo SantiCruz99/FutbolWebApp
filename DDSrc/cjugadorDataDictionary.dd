@@ -1,8 +1,8 @@
 ﻿Use DataDict.pkg
-
 Open jugador
 Open jugadorposicion
 Open equipo
+Open liga
 
 Class cjugadorDataDictionary is a DataDictionary
     
@@ -11,7 +11,6 @@ Class cjugadorDataDictionary is a DataDictionary
         Set Main_File to jugador.File_Number
 
         Set Add_Server_File to equipo.File_Number
-
         Set Add_Client_File to jugadorposicion.File_Number
 
         Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
