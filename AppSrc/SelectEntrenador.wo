@@ -7,16 +7,12 @@ Use centrenadorDataDictionary.dd
 Object oSelectEntrenador is a cWebView
     Set piWidth to 600
     Set psCaption to "Seleccionar Entrenador"
+    Set peViewType to vtSelect
 
     Object oEntrenador_DD is a centrenadorDataDictionary
     End_Object
 
     Set Main_DD to oEntrenador_DD
-
-    Procedure OnLoad
-        Forward Send OnLoad
-        Send Find of oEntrenador_DD FIRST_RECORD 1
-    End_Procedure
 
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12
@@ -25,6 +21,9 @@ Object oSelectEntrenador is a cWebView
             Set piColumnSpan to 12
             Set pbFillHeight to True
             Set Server to oEntrenador_DD
+            Set pbServerOnRowClick to True
+
+            WebRegisterPath ntNavigateForward oZoomEntrenador
 
             Object oID is a cWebColumn
                 Entry_Item entrenador.ID
@@ -55,6 +54,22 @@ Object oSelectEntrenador is a cWebView
                 Set psCaption to "Equipo ID"
                 Set piWidth to 20
             End_Object
+
+            Procedure OnRowClick String sRowID
+                Send NavigatePath
+            End_Procedure
+
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                RowID  riEntrenador
+                String sRowId
+
+                Forward Send OnGetNavigateForwardData (&NavigateData) hoToView
+
+                Get CurrentRowId of oEntrenador_DD to riEntrenador
+                Move (SerializeRowId(riEntrenador)) to sRowId
+                Get NamedValueAdd NavigateData.NamedValues "EntrenadorRowId" sRowId to NavigateData.NamedValues
+            End_Procedure
+
         End_Object
     End_Object
 End_Object

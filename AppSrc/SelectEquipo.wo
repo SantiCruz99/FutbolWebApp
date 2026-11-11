@@ -7,14 +7,54 @@ Use cequipoDataDictionary.dd
 Object oSelectEquipo is a cWebView
     Set piWidth to 800
     Set psCaption to "Seleccionar Equipo"
+    Set peViewType to vtSelect
+
+    // Definimos una propiedad normal (sin { WebProperty=True })
+    Property String psLigaID ""
 
     Object oEquipo_DD is a cequipoDataDictionary
+        
+        Procedure Constrain
+            Forward Send Constrain
+            String sLigaID
+            
+            // Leemos la propiedad directamente desde la vista contenedora
+            Get psLigaID of oSelectEquipo to sLigaID
+            
+            // Si hay un ID de liga válido, filtramos los equipos
+            If (sLigaID <> "") Begin
+                Constrain equipo.LigaID eq sLigaID
+            End
+        End_Procedure
+
     End_Object
 
     Set Main_DD to oEquipo_DD
 
+    // Capturamos el parámetro que viene desde oSelectLiga al navegar
+    Procedure OnNavigateForward tWebNavigateData NavigateData
+        String sLigaID
+        
+        Forward Send OnNavigateForward NavigateData
+
+        // Obtenemos el valor "LigaID" enviado en la navegación
+        Get NamedValueGet NavigateData.NamedValues "LigaID" to sLigaID
+        
+        // Guardamos el valor en la propiedad de la vista
+        Set psLigaID to sLigaID
+        
+        // Forzamos a que el DD reconstruya las restricciones y refresque los datos
+        Send RebuildAllConstraints of oEquipo_DD
+        Send Clear of oEquipo_DD
+        Send Find of oEquipo_DD FIRST_RECORD 1
+    End_Procedure
+
     Procedure OnLoad
         Forward Send OnLoad
+        // Si se entra sin parámetros (ej. desde el Dashboard), limpiamos el filtro
+        Set psLigaID to ""
+        Send RebuildAllConstraints of oEquipo_DD
+        Send Clear of oEquipo_DD
         Send Find of oEquipo_DD FIRST_RECORD 1
     End_Procedure
 
@@ -22,9 +62,13 @@ Object oSelectEquipo is a cWebView
         Set piColumnCount to 12
 
         Object oEquipoList is a cWebList
-            Set piColumnSpan to 8
+            Set piColumnSpan to 12
             Set pbFillHeight to True
             Set Server to oEquipo_DD
+            Set pbServerOnRowClick to True
+
+            // Registramos la ruta de navegación hacia la vista de detalle/zoom
+            WebRegisterPath ntNavigateForward oZoomEquipo
 
             Object oID is a cWebColumn
                 Entry_Item equipo.ID
@@ -43,6 +87,25 @@ Object oSelectEquipo is a cWebView
                 Set psCaption to "Liga ID"
                 Set piWidth to 30
             End_Object
+
+            // Al hacer clic en la fila, ejecutamos la navegación
+            Procedure OnRowClick String sRowID
+                Send NavigatePath
+            End_Procedure
+
+            // Pasamos el RowId del equipo seleccionado a la vista de destino
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                RowID riEquipo
+                String sRowId
+
+                Forward Send OnGetNavigateForwardData (&NavigateData) hoToView
+
+                Get CurrentRowId of oEquipo_DD to riEquipo
+                Move (SerializeRowId(riEquipo)) to sRowId
+                Get NamedValueAdd NavigateData.NamedValues "EquipoRowId" sRowId to NavigateData.NamedValues
+            End_Procedure
+
         End_Object
     End_Object
+
 End_Object

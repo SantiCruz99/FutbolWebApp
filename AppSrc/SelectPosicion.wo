@@ -7,6 +7,7 @@ Use cposicionDataDictionary.dd
 Object oSelectPosicion is a cWebView
     Set piWidth to 500
     Set psCaption to "Seleccionar Posición"
+    Set peViewType to vtSelect
 
     Object oPosicion_DD is a cposicionDataDictionary
     End_Object
@@ -25,6 +26,10 @@ Object oSelectPosicion is a cWebView
             Set piColumnSpan to 12
             Set pbFillHeight to True
             Set Server to oPosicion_DD
+            Set pbServerOnRowClick to True
+
+            // Registramos la ruta de navegación hacia la vista de detalle/zoom
+            WebRegisterPath ntNavigateForward oZoomPosicion
 
             Object oID is a cWebColumn
                 Entry_Item posicion.ID
@@ -37,6 +42,24 @@ Object oSelectPosicion is a cWebView
                 Set psCaption to "Nombre"
                 Set piWidth to 70
             End_Object
+
+            // Al hacer clic en la fila, ejecutamos la navegación
+            Procedure OnRowClick String sRowID
+                Send NavigatePath
+            End_Procedure
+
+            // Pasamos el RowId de la posición seleccionada al Zoom
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                RowID riPosicion
+                String sRowId
+
+                Forward Send OnGetNavigateForwardData (&NavigateData) hoToView
+
+                Get CurrentRowId of oPosicion_DD to riPosicion
+                Move (SerializeRowId(riPosicion)) to sRowId
+                Get NamedValueAdd NavigateData.NamedValues "PosicionRowId" sRowId to NavigateData.NamedValues
+            End_Procedure
+
         End_Object
     End_Object
 End_Object
