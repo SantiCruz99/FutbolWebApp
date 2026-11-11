@@ -6,7 +6,7 @@ Use cWebColumn.pkg
 Use cjugadorDataDictionary.dd
 
 Object oSelectJugador is a cWebView
-    Set piWidth to 900
+    Set piWidth to 700
     Set psCaption to "Seleccionar Jugador"
 
     Object oJugador_DD is a cjugadorDataDictionary
@@ -26,6 +26,7 @@ Object oSelectJugador is a cWebView
             Set piColumnSpan to 12
             Set pbFillHeight to True
             Set Server to oJugador_DD
+            Set pbServerOnRowClick to True
 
             Object oID is a cWebColumn
                 Entry_Item jugador.ID
@@ -36,27 +37,32 @@ Object oSelectJugador is a cWebView
             Object oNombre is a cWebColumn
                 Entry_Item jugador.Nombre
                 Set psCaption to "Nombre"
-                Set piWidth to 25
+                Set piWidth to 30
             End_Object
 
             Object oApellido is a cWebColumn
                 Entry_Item jugador.Apellido
                 Set psCaption to "Apellido"
-                Set piWidth to 25
+                Set piWidth to 30
             End_Object
 
             Object oNacionalidad is a cWebColumn
                 Entry_Item jugador.Nacionalidad
                 Set psCaption to "Nacionalidad"
-                Set piWidth to 12
+                Set piWidth to 30
             End_Object
 
-            Object oEquipoID is a cWebColumn
-                Entry_Item jugador.EquipoID
-                Set psCaption to "Equipo ID"
-                Set piWidth to 20
-            End_Object
+            // Abrir directamente el jugador seleccionado
+            Procedure OnRowClick String sRowID
+                Send NavigateForward of oZoomJugador Self
+            End_Procedure
+
+            // Abrir el detalle en modo lectura
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                Move True to NavigateData.bReadOnly
+            End_Procedure
 
         End_Object
     End_Object
+
 End_Object
