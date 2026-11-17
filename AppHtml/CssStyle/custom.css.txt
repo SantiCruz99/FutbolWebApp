@@ -1,0 +1,17 @@
+/* Fondo general de la aplicación con un tono verde muy suave */
+body, .WebAppDesigner, .cWebApp {
+    background-color: #eef4f1 !important;
+}
+
+/* Cajetines (inputs y formularios) con puntas redondeadas y borde verde sutil */
+.cWebForm input, .cWebForm textarea, .cWebGroup {
+    border-radius: 8px !important;
+    border: 1px solid #b2d8c8 !important;
+}
+
+/* Títulos de las vistas (Zoom) más grandes, en negrita y con tono verde oscuro */
+.WebModalHeader .WebCaption, .cWebView .WebCaption, .psCaption {
+    font-size: 22px !important;
+    font-weight: bold !important;
+    color: #1b4d3e !important;
+}
