@@ -1,0 +1,30 @@
+/* Fondo general de la aplicación */
+body, .WebAppDesigner, .cWebApp {
+    background-color: #eef4f1 !important;
+}
+
+/* Cajetines de formulario (inputs y controles web de DataFlex) con puntas redondeadas */
+.cWebForm .WebInputControl, 
+.cWebForm input, 
+.cWebForm textarea, 
+.cWebGroup {
+    border-radius: 8px !important;
+    border: 1px solid #6ce4b2 !important;
+}
+
+/* Títulos de las vistas (Zoom) más grandes, en negrita y en tono verde oscuro */
+.WebModalHeader .WebCaption, 
+.cWebView .WebCaption, 
+.WebViewHeader .WebCaption {
+    font-size: 22px !important;
+    font-weight: bolder !important;
+    color: #125a44 !important;
+}
+
+/* Estilo para las tarjetas con la clase verde-card-group */
+.verde-card-group {
+    background-color: #6ce4b2  !important;
+    border-radius: 10px !important;
+    border: 1px solid #42e0ab !important;
+    padding: 10px !important;
+}
