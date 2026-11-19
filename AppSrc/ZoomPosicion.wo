@@ -28,6 +28,7 @@ Object oZoomPosicion is a cWebView
             Set piColumnSpan to 12
             Set pbShowBorder to True
             Set piColumnCount to 12
+            Set psCSSClass to "verde-card-group"
 
             Object oID is a cWebForm
                 Entry_Item posicion.ID
