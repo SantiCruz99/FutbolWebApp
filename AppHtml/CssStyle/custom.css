@@ -23,8 +23,208 @@ body, .WebAppDesigner, .cWebApp {
 
 /* Estilo para las tarjetas con la clase verde-card-group */
 .verde-card-group {
-    background-color: #6ce4b2  !important;
+    background-color: #6ce4b2 !important;
     border-radius: 10px !important;
     border: 1px solid #42e0ab !important;
     padding: 10px !important;
+}
+
+/* Barra superior de navegación (Header / Breadcrumbs) */
+.WebApp .WebNavigationBar,
+.WebApp .WebNavHeader,
+.WebApp .WebBreadcrumb {
+    background-color: #125a44 !important;
+    color: #ffffff !important;
+}
+
+/* Color del texto y enlaces de la barra de navegación */
+.WebApp .WebNavigationBar a,
+.WebApp .WebBreadcrumb span {
+    color: #bdf2df !important;
+}
+
+/* Forzar que los bloques (Tiles) del Dashboard tomen el tono verde suave */
+.Dashboard .Tile.Light, .Dashboard .Tile.LightAlternate {
+    background-color: #d6f5e8 !important;
+    border: 1px solid #6ce4b2 !important;
+    border-radius: 8px !important;
+}
+
+.Dashboard .Tile.Dark, .Dashboard .Tile.DarkAlternate {
+    background-color: #125a44 !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+}
+
+/* Color del texto de los títulos dentro de los Tiles del Dashboard */
+.Dashboard .Tile .Tile_Title {
+    color: #0b382b !important;
+    font-weight: bold !important;
+}
+
+.Dashboard .Tile.Dark .Tile_Title, .Dashboard .Tile.DarkAlternate .Tile_Title {
+    color: #ffffff !important;
+}
+
+/* --- ESTILOS PERSONALIZADOS PARA TABLAS (cWebList) --- */
+
+/* 1. Fondo de la cabecera de la tabla en tono verde oscuro con texto blanco */
+.tabla-verde-custom .WebList_Header, 
+.tabla-verde-custom .WebTable_Header th {
+    background-color: #125a44 !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+}
+
+/* 2. Color de los títulos de las columnas dentro de la cabecera */
+.tabla-verde-custom .WebList_Header .WebColH_Text {
+    color: #ffffff !important;
+}
+
+/* 3. Fondo de las filas de información en blanco */
+.tabla-verde-custom .WebList_Body, 
+.tabla-verde-custom .WebTable_Body td,
+.tabla-verde-custom tr {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+}
+
+/* 4. Color de la fila seleccionada o al pasar el ratón por encima (un verde muy suave) */
+.tabla-verde-custom tr:hover, 
+.tabla-verde-custom .WebList_RowSel {
+    background-color: #d6f5e8 !important;
+    color: #0b382b !important;
+}
+
+/* --- SOBRESCRIBIR VARIABLES DEL TEMA Y ELEMENTOS AZULES --- */
+
+/* 1. Cambiar la paleta principal azul de DataFlex a tonos verdes */
+:root {
+    --df-MainDark: #0b382b !important;
+    --df-MainRegular: #125a44 !important;
+    --df-MainMedium: #1b7a5d !important;
+    --df-MainLight: #259975 !important;
+    --df-MainLight2: #6ce4b2 !important;
+    --df-MainLight3: #b5eed6 !important;
+    --df-MainLight4: #d6f5e8 !important;
+    --df-BtnBackgroundColor: #125a44 !important;
+    --df-BtnFocusColor: #0b382b !important;
+}
+
+/* 2. Barra de migas de pan (Dashboard > Seleccionar Entrenador) */
+.WebApp .WebBreadcrumb .WebCrumbs_Horiz ul.WebCrumbs,
+.WebApp .WebBreadcrumb ul.WebCrumbs,
+.WebBreadcrumb .WebCrumbs_Horiz ul.WebCrumbs {
+    background-color: #125a44 !important;
+    border-color: #0b382b !important;
+}
+
+/* Forzar color verde en la barra de migas de pan */
+.WebBreadcrumb .WebCrumbs_Horiz ul.WebCrumbs {
+    background-color: #125a44 !important;
+    border: none !important;
+}
+
+.WebBreadcrumb ul.WebCrumbs li,
+.WebBreadcrumb ul.WebCrumbs li a,
+.WebBreadcrumb ul.WebCrumbs li span {
+    color: #ffffff !important;
+}
+
+/* 3. Botón del menú superior izquierdo (las 3 líneas / icono) */
+.HeaderPanel.WebPanel .WebContainer .WebButton.WebMenuButton button,
+.HeaderPanel.WebPanel .WebContainer .WebControl.WebButton button {
+    color: #ffffff !important;
+    background-color: #125a44 !important;
+}
+
+/* Icono de las tres líneas del menú */
+.HeaderPanel.WebPanel .WebContainer .WebButton.WebMenuButton button:before {
+    color: #ffffff !important;
+}
+
+/* 4. Cuadrado / barra superior derecha y barra de herramientas */
+.WebApp .WebToolBar.WebTlb_Standalone,
+.WebApp .WebToolBar.WebTlb_Standalone > div.WebCon_Inner,
+.WebApp .WebToolBar.WebTlb_Standalone > div.WebCon_Inner > div,
+.WebApp .WebToolBar.WebTlb_Standalone li,
+.WebApp .HeaderPanel.WebPanel {
+    background-color: #125a44 !important;
+    color: #ffffff !important;
+}
+
+/* ==========================================
+   CORRECCIÓN DE COLORES DE NAVEGACIÓN DATAFLEX 25
+   ========================================== */
+
+/* Identificador principal de la aplicación */
+#OWEBAPP {
+    --df-MainDark: #0b382b !important;
+    --df-MainRegular: #125a44 !important;
+    --df-MainMedium: #1b7a5d !important;
+    --df-MainLight: #259975 !important;
+    --df-MainLight2: #6ce4b2 !important;
+    --df-MainLight3: #b5eed6 !important;
+    --df-MainLight4: #d6f5e8 !important;
+    --df-BtnBackgroundColor: #125a44 !important;
+    --df-BtnFocusColor: #0b382b !important;
+}
+
+/* Barra superior y sus paneles */
+.HeaderPanel.WebPanel,
+.HeaderPanel.WebPanel > .WebCon_Inner,
+.HeaderPanel.WebPanel .WebContainer,
+.HeaderPanel.WebPanel .WebPanel {
+    background-color: #125a44 !important;
+}
+
+/* Botón hamburguesa */
+.HeaderPanel.WebPanel .WebContainer .WebButton.WebMenuButton,
+.HeaderPanel.WebPanel .WebContainer .WebButton.WebMenuButton button {
+    background-color: #125a44 !important;
+    color: #ffffff !important;
+}
+
+/* Barra superior derecha: zona de acciones */
+.WebToolBar.WebTlb_Standalone,
+.WebToolBar.WebTlb_Standalone > div.WebCon_Inner,
+.WebToolBar.WebTlb_Standalone > div.WebCon_Inner > div {
+    background-color: #125a44 !important;
+    color: #ffffff !important;
+}
+
+/* Barra de migas de pan */
+.WebBreadcrumb,
+.WebBreadcrumb > div,
+.WebBreadcrumb .WebCrumbs,
+.WebBreadcrumb ul.WebCrumbs,
+.WebBreadcrumb .WebCrumbs_Horiz {
+    background-color: #125a44 !important;
+    color: #ffffff !important;
+    border-color: #0b382b !important;
+}
+
+/* Selector exacto de la barra de migas de pan de DataFlex 25 */
+.WebBreadcrumb .WebCrumbs_Horiz ul.WebCrumbs {
+    background-color: #125a44 !important;
+    border: none !important;
+}
+
+/* Textos y enlaces de navegación */
+.WebBreadcrumb ul.WebCrumbs a,
+.WebBreadcrumb ul.WebCrumbs span,
+.WebBreadcrumb ul.WebCrumbs li,
+.WebMenuButton button {
+    color: #ffffff !important;
+}
+
+/* Icono de las tres líneas */
+.HeaderPanel.WebPanel .WebContainer .WebButton.WebMenuButton button:before {
+    color: #ffffff !important;
+}
+
+/* Separadores y flechas de las migas de pan */
+.WebBreadcrumb li:before,
+.WebBreadcrumb li:after {
+    border-color: #0b382b !important;
 }
