@@ -27,6 +27,7 @@ Object oSelectLiga is a cWebView
             Set pbFillHeight to True
             Set Server to oLiga_DD
             Set pbServerOnRowClick to True
+            Set psCSSClass to "tabla-verde-custom"
 
             WebRegisterPath ntNavigateForward oSelectEquipo
 

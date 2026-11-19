@@ -27,6 +27,7 @@ Object oSelectPosicion is a cWebView
             Set pbFillHeight to True
             Set Server to oPosicion_DD
             Set pbServerOnRowClick to True
+            Set psCSSClass to "tabla-verde-custom"
 
             // Registramos la ruta de navegación hacia la vista de detalle/zoom
             WebRegisterPath ntNavigateForward oZoomPosicion

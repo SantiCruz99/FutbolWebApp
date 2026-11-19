@@ -35,6 +35,7 @@ Object oZoomEquipo is a cWebView
             Set piColumnSpan to 12
             Set pbShowBorder to True
             Set piColumnCount to 12
+            Set psCSSClass to "verde-card-group"
 
             Object oID is a cWebForm
                 Entry_Item equipo.ID
@@ -59,6 +60,7 @@ Object oZoomEquipo is a cWebView
             Set piColumnCount to 6
             Set piColumnSpan to 6
             Set pbShowBorder to True
+            Set psCSSClass to "verde-card-group"
 
             Object oLigaNombre is a cWebForm
                 Entry_Item liga.Nombre
