@@ -22,6 +22,7 @@ Object oSelectEntrenador is a cWebView
             Set pbFillHeight to True
             Set Server to oEntrenador_DD
             Set pbServerOnRowClick to True
+            Set psCSSClass to "tabla-verde-custom"
 
             WebRegisterPath ntNavigateForward oZoomEntrenador
 
