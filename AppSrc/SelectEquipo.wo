@@ -1,4 +1,7 @@
-﻿Use cWebView.pkg
+﻿
+
+
+Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebList.pkg
 Use cWebColumn.pkg
@@ -9,19 +12,21 @@ Object oSelectEquipo is a cWebView
     Set psCaption to "Seleccionar Equipo"
     Set peViewType to vtSelect
 
-    // Definimos una propiedad normal (sin { WebProperty=True })
+    // Propiedad para filtrar por liga
     Property String psLigaID ""
 
+    // Indica si se ha abierto desde ZoomEntrenador
+    Property String psModoSeleccion ""
+
     Object oEquipo_DD is a cequipoDataDictionary
-        
+
         Procedure Constrain
             Forward Send Constrain
+
             String sLigaID
-            
-            // Leemos la propiedad directamente desde la vista contenedora
+
             Get psLigaID of oSelectEquipo to sLigaID
-            
-            // Si hay un ID de liga válido, filtramos los equipos
+
             If (sLigaID <> "") Begin
                 Constrain equipo.LigaID eq sLigaID
             End
@@ -31,19 +36,19 @@ Object oSelectEquipo is a cWebView
 
     Set Main_DD to oEquipo_DD
 
-    // Capturamos el parámetro que viene desde oSelectLiga al navegar
+    // Capturamos los parámetros de navegación
     Procedure OnNavigateForward tWebNavigateData NavigateData
         String sLigaID
-        
+        String sModo
+
         Forward Send OnNavigateForward NavigateData
 
-        // Obtenemos el valor "LigaID" enviado en la navegación
         Get NamedValueGet NavigateData.NamedValues "LigaID" to sLigaID
-        
-        // Guardamos el valor en la propiedad de la vista
+        Get NamedValueGet NavigateData.NamedValues "ModoSeleccion" to sModo
+
         Set psLigaID to sLigaID
-        
-        // Forzamos a que el DD reconstruya las restricciones y refresque los datos
+        Set psModoSeleccion to sModo
+
         Send RebuildAllConstraints of oEquipo_DD
         Send Clear of oEquipo_DD
         Send Find of oEquipo_DD FIRST_RECORD 1
@@ -51,8 +56,10 @@ Object oSelectEquipo is a cWebView
 
     Procedure OnLoad
         Forward Send OnLoad
-        // Si se entra sin parámetros (ej. desde el Dashboard), limpiamos el filtro
+
         Set psLigaID to ""
+        Set psModoSeleccion to ""
+
         Send RebuildAllConstraints of oEquipo_DD
         Send Clear of oEquipo_DD
         Send Find of oEquipo_DD FIRST_RECORD 1
@@ -68,7 +75,7 @@ Object oSelectEquipo is a cWebView
             Set pbServerOnRowClick to True
             Set psCSSClass to "tabla-verde-custom"
 
-            // Registramos la ruta de navegación hacia la vista de detalle/zoom
+            // Ruta habitual hacia ZoomEquipo
             WebRegisterPath ntNavigateForward oZoomEquipo
 
             Object oID is a cWebColumn
@@ -89,12 +96,23 @@ Object oSelectEquipo is a cWebView
                 Set piWidth to 30
             End_Object
 
-            // Al hacer clic en la fila, ejecutamos la navegación
+            // Al pulsar una fila decidimos según el origen
             Procedure OnRowClick String sRowID
-                Send NavigatePath
+                String sModo
+
+                Get psModoSeleccion of oSelectEquipo to sModo
+
+                If (sModo = "Entrenador") Begin
+                    // Devolvemos el equipo al ZoomEntrenador
+                    Send NavigateClose of oSelectEquipo Self
+                End
+                Else Begin
+                    // Comportamiento original: abrir ZoomEquipo
+                    Send NavigatePath
+                End
             End_Procedure
 
-            // Pasamos el RowId del equipo seleccionado a la vista de destino
+            // Pasamos el RowId a ZoomEquipo
             Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
                 RowID riEquipo
                 String sRowId
@@ -103,10 +121,27 @@ Object oSelectEquipo is a cWebView
 
                 Get CurrentRowId of oEquipo_DD to riEquipo
                 Move (SerializeRowId(riEquipo)) to sRowId
-                Get NamedValueAdd NavigateData.NamedValues "EquipoRowId" sRowId to NavigateData.NamedValues
+
+                Get NamedValueAdd NavigateData.NamedValues ;
+                    "EquipoRowId" sRowId to NavigateData.NamedValues
+            End_Procedure
+
+            // Devolvemos el equipo elegido al ZoomEntrenador
+            Procedure OnGetNavigateBackData tWebNavigateData ByRef NavigateData Handle hoBackToView
+                RowID riEquipo
+                String sRowId
+
+                Forward Send OnGetNavigateBackData (&NavigateData) hoBackToView
+
+                Get CurrentRowId of oEquipo_DD to riEquipo
+                Move (SerializeRowId(riEquipo)) to sRowId
+
+                Get NamedValueAdd NavigateData.NamedValues ;
+                    "EquipoRowId" sRowId to NavigateData.NamedValues
             End_Procedure
 
         End_Object
     End_Object
 
 End_Object
+

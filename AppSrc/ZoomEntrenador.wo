@@ -1,13 +1,17 @@
-﻿Use cWebView.pkg
+﻿
+
+
+Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebForm.pkg
 Use cWebGroup.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
+Use cWebButton.pkg
 Use centrenadorDataDictionary.dd
 Use cequipoDataDictionary.dd
 Use cligaDataDictionary.dd
-Use cWebButton.pkg
+Use SelectEquipo.wo
 
 Object oZoomEntrenador is a cWebView
     Set piWidth to 700
@@ -15,7 +19,9 @@ Object oZoomEntrenador is a cWebView
     Set peViewType to vtZoom
     Set piMaxWidth to 1024
 
-    // Declaración de Data Dictionaries en cascada
+    Set Verify_Save_msg to 0
+
+    // Declaración de Data Dictionaries
     Object oLiga_DD is a cligaDataDictionary
     End_Object
 
@@ -27,7 +33,6 @@ Object oZoomEntrenador is a cWebView
         Set DDO_Server to oEquipo_DD
     End_Object
 
-    // Asignación obligatoria para que la vista enlace los datos con los formularios
     Set Main_DD to oEntrenador_DD
     Set Server to oEntrenador_DD
 
@@ -58,34 +63,81 @@ Object oZoomEntrenador is a cWebView
             End_Object
         End_Object
 
+        // Grupo del equipo
         Object oEquipoLiga_grp is a cWebGroup
             Set piColumnIndex to 0
-            Set piColumnCount to 6
-            Set piColumnSpan to 6
+            Set piColumnCount to 12
+            Set piColumnSpan to 12
             Set pbShowBorder to True
             Set psCSSClass to "verde-card-group"
 
             Object oEquipoNombre is a cWebForm
                 Entry_Item equipo.Nombre
-                Set piColumnSpan to 6
+                Set piColumnSpan to 9
                 Set piColumnIndex to 0
                 Set peLabelPosition to lpTop
                 Set psLabel to "Equipo:"
             End_Object
 
-            Object oLigaNombre is a cWebForm
-                Entry_Item liga.Nombre
-                Set piColumnSpan to 6
-                Set piColumnIndex to 0
-                Set peLabelPosition to lpTop
-                Set psLabel to "Liga:"
+            // Botón para seleccionar otro equipo
+            Object oBuscarEquipoBtn is a cWebButton
+                Set psCaption to "🔍"
+                Set piColumnSpan to 3
+                Set piColumnIndex to 9
+
+                WebRegisterPath ntNavigateForward oSelectEquipo
+
+                Procedure OnClick
+                    Send NavigateForward of oSelectEquipo Self
+                End_Procedure
+
+                // Indicamos que se abre desde ZoomEntrenador
+                Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                    Forward Send OnGetNavigateForwardData (&NavigateData) hoToView
+
+                    Get NamedValueAdd NavigateData.NamedValues ;
+                        "ModoSeleccion" "Entrenador" to NavigateData.NamedValues
+                End_Procedure
+
+                // Recibimos el equipo seleccionado
+                Procedure OnNavigateBack Handle hoCallback tWebNavigateData NavigateData
+                    String sRowId
+                    RowID riEquipo
+                    Integer iEquipoID
+
+                    Get NamedValueGet NavigateData.NamedValues "EquipoRowId" to sRowId
+
+                    If (sRowId <> "") Begin
+
+                        Move (DeserializeRowId(sRowId)) to riEquipo
+
+                        // Buscamos el equipo seleccionado en el DDO relacionado
+                        Send FindByRowId of oEquipo_DD equipo.File_Number riEquipo
+
+                        Move equipo.ID to iEquipoID
+
+                        If (iEquipoID <> 0) Begin
+
+                            // Mantenemos el zoom en modo edición
+                            Send ChangeEditMode of oZoomEntrenador True
+
+                            // Actualizamos la clave foránea del entrenador
+                            Set Field_Changed_Value of oEntrenador_DD ;
+                                Field entrenador.EquipoID to iEquipoID
+
+                            // Sincronizamos el DDO principal y los DDO relacionados
+                            Send Request_Assign of oEntrenador_DD
+
+                        End
+                    End
+                End_Procedure
             End_Object
         End_Object
 
         Object oNacionalidad_grp is a cWebGroup
-            Set piColumnIndex to 6
-            Set piColumnSpan to 6
-            Set piColumnCount to 6
+            Set piColumnIndex to 0
+            Set piColumnSpan to 12
+            Set piColumnCount to 12
             Set pbShowBorder to True
             Set psCSSClass to "verde-card-group"
 
@@ -96,8 +148,16 @@ Object oZoomEntrenador is a cWebView
                 Set psLabel to "Nacionalidad:"
             End_Object
         End_Object
-        
-        
+
+        // Botón Despedir
+        Object oDespedirBtn is a cWebButton
+            Set psCaption to "Despedir"
+            Set piColumnSpan to 3
+
+            Procedure OnClick
+                Send PreguntarDespedir
+            End_Procedure
+        End_Object
 
     End_Object
 
@@ -109,16 +169,6 @@ Object oZoomEntrenador is a cWebView
 
             Procedure OnClick
                 Send Request_Save of oZoomEntrenador
-            End_Procedure
-        End_Object
-
-        Object oEditBtn is a cWebMenuItem
-            Set psCSSClass to "WebEditMenuItem"
-            Set psCaption to "Edit"
-
-            Procedure OnClick
-                Send ChangeEditMode of oZoomEntrenador True
-                Send SetActionButtons of oZoomEntrenador
             End_Procedure
         End_Object
 
@@ -144,6 +194,41 @@ Object oZoomEntrenador is a cWebView
 
     End_Object
 
+    // Recibimos la respuesta del usuario
+    Procedure ConfirmarDespedir Integer eConfirmMode
+
+        If (eConfirmMode = cmYes) Begin
+            Send DespedirEntrenador
+        End
+
+    End_Procedure
+
+    WebPublishProcedure ConfirmarDespedir
+
+    // Preguntamos antes de despedir al entrenador
+    Procedure PreguntarDespedir
+        Send ShowYesNo (Self) (RefProc(ConfirmarDespedir)) ;
+            "¿Deseas despedir a este entrenador?" ;
+            "Confirmar despido"
+    End_Procedure
+
+    // Despedir al entrenador y guardar
+    Procedure DespedirEntrenador
+
+        Send ChangeEditMode True
+
+        // Quitamos la asociación con el equipo
+        Set Field_Changed_Value of oEntrenador_DD ;
+            Field entrenador.EquipoID to 0
+
+        // Indicamos que EquipoID debe guardarse como NULL
+        Set_Attribute DF_FIELD_IS_NULL of entrenador.File_Number ;
+            (RefTable(entrenador.EquipoID)) to True
+
+        Send Request_Save of oZoomEntrenador
+
+    End_Procedure
+
     Procedure SetActionButtons
         tWebNavigateData NavigateData
         Boolean bHasRecord
@@ -153,20 +238,11 @@ Object oZoomEntrenador is a cWebView
         Get Current_Record of oEntrenador_DD to iRecord
         Move (iRecord <> 0) to bHasRecord
 
-        // Ocultamos todos los botones por defecto y mostramos los necesarios según el estado
-        WebSet pbRender of oEditBtn to False
-        WebSet pbRender of oSaveBtn to False
-        WebSet pbRender of oCancelChangesBtn to False
-        WebSet pbRender of oDeleteBtn to False
+        // El botón Edit ya no existe
+        WebSet pbRender of oSaveBtn to True
+        WebSet pbRender of oCancelChangesBtn to True
+        WebSet pbRender of oDeleteBtn to bHasRecord
 
-        If (NavigateData.bReadOnly) Begin
-            WebSet pbRender of oEditBtn to True
-        End
-        Else Begin
-            WebSet pbRender of oSaveBtn to True
-            WebSet pbRender of oCancelChangesBtn to True
-            WebSet pbRender of oDeleteBtn to bHasRecord
-        End
     End_Procedure
 
     Procedure OnNavigateForward tWebNavigateData NavigateData
@@ -175,15 +251,16 @@ Object oZoomEntrenador is a cWebView
 
         Forward Send OnNavigateForward NavigateData
 
-        // Recuperamos el RowId enviado desde la lista de selección y buscamos el registro
         Get NamedValueGet NavigateData.NamedValues "EntrenadorRowId" to sRowId
+
         If (sRowId <> "") Begin
             Move (DeserializeRowId(sRowId)) to riEntrenador
             Send FindByRowId of oEntrenador_DD entrenador.File_Number riEntrenador
             Send Request_Assign of oEntrenador_DD
         End
 
-        Send ChangeEditMode False
+        // Abrimos directamente en modo edición
+        Send ChangeEditMode True
         Send SetActionButtons
     End_Procedure
 
@@ -198,3 +275,4 @@ Object oZoomEntrenador is a cWebView
     End_Procedure
 
 End_Object
+
