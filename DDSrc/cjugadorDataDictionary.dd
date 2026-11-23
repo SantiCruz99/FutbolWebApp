@@ -1,13 +1,16 @@
-﻿Use DataDict.pkg
+﻿
+Use DataDict.pkg
+
 Open jugador
 Open jugadorposicion
 Open equipo
 Open liga
 
 Class cjugadorDataDictionary is a DataDictionary
-    
+
     Procedure Construct_Object
         Forward Send Construct_Object
+
         Set Main_File to jugador.File_Number
 
         Set Add_Server_File to equipo.File_Number
@@ -17,6 +20,19 @@ Class cjugadorDataDictionary is a DataDictionary
         Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
+
+        // Proteger la clave primaria para que no se modifique
+        Set Key_Field_State Field jugador.ID to False
+
+        // Bloquear nombre y apellido para que no se editen ni se sobrescriban
+        Set Field_Option Field jugador.Nombre DD_NOPUT to True
+        Set Field_Option Field jugador.Nombre DD_NOENTER to True
+        Set Field_Option Field jugador.Apellido DD_NOPUT to True
+        Set Field_Option Field jugador.Apellido DD_NOENTER to True
+
+        // Marcar campos obligatorios (NOT NULL) de la tabla jugador
+        Set Field_Option Field jugador.Nombre DD_REQUIRED to True
+        Set Field_Option Field jugador.Apellido DD_REQUIRED to True
 
     End_Procedure
 
