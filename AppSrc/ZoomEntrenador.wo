@@ -1,7 +1,4 @@
-﻿
-
-
-Use cWebView.pkg
+﻿Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebForm.pkg
 Use cWebGroup.pkg
@@ -11,7 +8,6 @@ Use cWebButton.pkg
 Use centrenadorDataDictionary.dd
 Use cequipoDataDictionary.dd
 Use cligaDataDictionary.dd
-Use SelectEquipo.wo
 
 Object oZoomEntrenador is a cWebView
     Set piWidth to 700
@@ -91,7 +87,7 @@ Object oZoomEntrenador is a cWebView
                     Send NavigateForward of oSelectEquipo Self
                 End_Procedure
 
-                // Indicamos que se abre desde ZoomEntrenador
+                // Indicamos que SelectEquipo se abre desde ZoomEntrenador
                 Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
                     Forward Send OnGetNavigateForwardData (&NavigateData) hoToView
 
@@ -108,26 +104,27 @@ Object oZoomEntrenador is a cWebView
                     Get NamedValueGet NavigateData.NamedValues "EquipoRowId" to sRowId
 
                     If (sRowId <> "") Begin
-
                         Move (DeserializeRowId(sRowId)) to riEquipo
 
-                        // Buscamos el equipo seleccionado en el DDO relacionado
+                        // Localizamos el equipo seleccionado
                         Send FindByRowId of oEquipo_DD equipo.File_Number riEquipo
 
                         Move equipo.ID to iEquipoID
 
                         If (iEquipoID <> 0) Begin
-
-                            // Mantenemos el zoom en modo edición
+                            // Dejamos el entrenador en modo edición
                             Send ChangeEditMode of oZoomEntrenador True
 
                             // Actualizamos la clave foránea del entrenador
                             Set Field_Changed_Value of oEntrenador_DD ;
                                 Field entrenador.EquipoID to iEquipoID
 
-                            // Sincronizamos el DDO principal y los DDO relacionados
+                            // Actualizamos los DEO del entrenador
                             Send Request_Assign of oEntrenador_DD
 
+                            // Refrescamos el DDO del equipo
+                            Send FindByRowId of oEquipo_DD equipo.File_Number riEquipo
+                            Send Request_Assign of oEquipo_DD
                         End
                     End
                 End_Procedure
@@ -196,11 +193,9 @@ Object oZoomEntrenador is a cWebView
 
     // Recibimos la respuesta del usuario
     Procedure ConfirmarDespedir Integer eConfirmMode
-
         If (eConfirmMode = cmYes) Begin
             Send DespedirEntrenador
         End
-
     End_Procedure
 
     WebPublishProcedure ConfirmarDespedir
@@ -214,7 +209,6 @@ Object oZoomEntrenador is a cWebView
 
     // Despedir al entrenador y guardar
     Procedure DespedirEntrenador
-
         Send ChangeEditMode True
 
         // Quitamos la asociación con el equipo
@@ -226,23 +220,19 @@ Object oZoomEntrenador is a cWebView
             (RefTable(entrenador.EquipoID)) to True
 
         Send Request_Save of oZoomEntrenador
-
     End_Procedure
 
     Procedure SetActionButtons
-        tWebNavigateData NavigateData
         Boolean bHasRecord
         Integer iRecord
 
-        Get GetNavigateData to NavigateData
         Get Current_Record of oEntrenador_DD to iRecord
         Move (iRecord <> 0) to bHasRecord
 
-        // El botón Edit ya no existe
+        // No existe botón Editar
         WebSet pbRender of oSaveBtn to True
         WebSet pbRender of oCancelChangesBtn to True
         WebSet pbRender of oDeleteBtn to bHasRecord
-
     End_Procedure
 
     Procedure OnNavigateForward tWebNavigateData NavigateData
@@ -275,4 +265,3 @@ Object oZoomEntrenador is a cWebView
     End_Procedure
 
 End_Object
-
