@@ -7,6 +7,7 @@ Use cWebMenuItem.pkg
 Use centrenadorDataDictionary.dd
 Use cequipoDataDictionary.dd
 Use cligaDataDictionary.dd
+Use cWebButton.pkg
 
 Object oZoomEntrenador is a cWebView
     Set piWidth to 700
@@ -95,6 +96,8 @@ Object oZoomEntrenador is a cWebView
                 Set psLabel to "Nacionalidad:"
             End_Object
         End_Object
+        
+        
 
     End_Object
 

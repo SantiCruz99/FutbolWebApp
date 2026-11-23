@@ -18,6 +18,28 @@ Class centrenadorDataDictionary is a DataDictionary
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
+        // Proteger la clave primaria para que no se modifique
+        Set Key_Field_State Field entrenador.ID to False
+
+        // Bloquear nombre y apellido para que no se editen ni se sobrescriban
+        Set Field_Option Field entrenador.Nombre DD_NOPUT to True
+        Set Field_Option Field entrenador.Nombre DD_NOENTER to True
+        Set Field_Option Field entrenador.Apellido DD_NOPUT to True
+        Set Field_Option Field entrenador.Apellido DD_NOENTER to True
+
+        // Marcar campos obligatorios (NOT NULL) de la tabla entrenador
+        Set Field_Option Field entrenador.Nombre DD_REQUIRED to True
+        Set Field_Option Field entrenador.Apellido DD_REQUIRED to True
+
     End_Procedure
+
+   Procedure Attach_Main_File
+    Forward Send Attach_Main_File
+
+    If (entrenador.EquipoID = 0) Begin
+        Set_Attribute DF_FIELD_IS_NULL of entrenador.File_Number ;
+            (RefTable(entrenador.EquipoID)) to True
+    End
+End_Procedure
 
 End_Class

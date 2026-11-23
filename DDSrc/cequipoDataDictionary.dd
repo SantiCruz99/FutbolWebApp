@@ -1,4 +1,5 @@
-﻿Use DataDict.pkg
+﻿
+Use DataDict.pkg
 
 Open equipo
 Open entrenador
@@ -6,9 +7,10 @@ Open jugador
 Open liga
 
 Class cequipoDataDictionary is a DataDictionary
-    
+
     Procedure Construct_Object
         Forward Send Construct_Object
+
         Set Main_File to equipo.File_Number
 
         Set Add_Server_File to liga.File_Number
@@ -20,6 +22,17 @@ Class cequipoDataDictionary is a DataDictionary
         Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
+
+        // Proteger la clave primaria para que no se modifique
+        Set Key_Field_State Field equipo.ID to False
+
+        // Bloquear el nombre para que no se pueda modificar
+        Set Field_Option Field equipo.Nombre DD_NOPUT to True
+        Set Field_Option Field equipo.Nombre DD_NOENTER to True
+
+        // Marcar campos obligatorios (NOT NULL) de la tabla equipo
+        Set Field_Option Field equipo.Nombre DD_REQUIRED to True
+        Set Field_Option Field equipo.LigaID DD_REQUIRED to True
 
     End_Procedure
 
