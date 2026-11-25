@@ -1,5 +1,4 @@
-﻿
-Use DataDict.pkg
+﻿Use DataDict.pkg
 
 Open jugadorposicion
 Open jugador
@@ -21,7 +20,7 @@ Class cjugadorposicionDataDictionary is a DataDictionary
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
         // Proteger la clave primaria para que no se modifique
-        Set Key_Field_State Field jugadorposicion.ID to False
+        Set Key_Field_State Field jugadorposicion.ID to True
 
         // Marcar campos obligatorios (NOT NULL) de la tabla jugadorposicion
         Set Field_Option Field jugadorposicion.JugadorID DD_REQUIRED to True
