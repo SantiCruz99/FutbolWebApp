@@ -7,6 +7,7 @@ Use cWebGroup.pkg
 Use cjugadorDataDictionary.dd
 Use cequipoDataDictionary.dd
 Use cligaDataDictionary.dd
+Use cWebCombo.pkg
 
 Object oZoomJugador is a cWebView
     Set piWidth to 700
@@ -84,7 +85,7 @@ Object oZoomJugador is a cWebView
             Set pbShowBorder to True
             Set psCSSClass to "verde-card-group"
 
-            Object oNacionalidad is a cWebForm
+           Object oNacionalidad is a cWebCombo
                 Entry_Item jugador.Nacionalidad
                 Set piColumnSpan to 6
                 Set peLabelPosition to lpTop
@@ -106,15 +107,7 @@ Object oZoomJugador is a cWebView
             End_Procedure
         End_Object
 
-        Object oEditBtn is a cWebMenuItem
-            Set psCSSClass to "WebEditMenuItem"
-            Set psCaption to "Edit"
-
-            Procedure OnClick
-                Send ChangeEditMode of oZoomJugador True
-                Send SetActionButtons of oZoomJugador
-            End_Procedure
-        End_Object
+        
 
         Object oDeleteBtn is a cWebMenuItem
             Set psCSSClass to "WebDeleteMenuItem"
@@ -140,29 +133,10 @@ Object oZoomJugador is a cWebView
     End_Object
 
     Procedure SetActionButtons
-        tWebNavigateData NavigateData
-        Boolean bHasRecord
-        Handle hoDD
-
-        Get Server to hoDD
-        Get GetNavigateData to NavigateData
-        Get HasRecord of hoDD to bHasRecord
-
-        // Ocultamos todos los botones por defecto y mostramos los necesarios según el estado
-        WebSet pbRender of oEditBtn to False
-        WebSet pbRender of oSaveBtn to False
-        WebSet pbRender of oCancelChangesBtn to False
-        WebSet pbRender of oDeleteBtn to False
-
-        If (NavigateData.bReadOnly) Begin
-            WebSet pbRender of oEditBtn to True
-        End
-        Else Begin
-            WebSet pbRender of oSaveBtn to True
-            WebSet pbRender of oCancelChangesBtn to True
-            WebSet pbRender of oDeleteBtn to bHasRecord
-        End
-    End_Procedure
+    WebSet pbRender of oSaveBtn to True
+    WebSet pbRender of oCancelChangesBtn to False
+    WebSet pbRender of oDeleteBtn to False
+End_Procedure
 
     // Capturamos el ID del jugador seleccionado y cargamos sus datos en el Zoom
     Procedure OnNavigateForward tWebNavigateData NavigateData
@@ -178,7 +152,7 @@ Object oZoomJugador is a cWebView
             Send Request_Assign of oJugador_DD
         End
 
-        Send ChangeEditMode False
+        Send ChangeEditMode True
         Send SetActionButtons
     End_Procedure
 
