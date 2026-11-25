@@ -21,7 +21,7 @@ Class centrenadorDataDictionary is a DataDictionary
         
 
         Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
-        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
+        Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to False
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 

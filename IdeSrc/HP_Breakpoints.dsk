@@ -1,5 +1,0 @@
-[C:\DataFlex Projects\FutbolWebApp\DDSrc\centrenadorDataDictionary.dd]
-Source38=Set Field_Option Field entrenador.Apellido DD_REQUIRED to True
-ConditionEnabled38=0
-Condition38= 
-38=1

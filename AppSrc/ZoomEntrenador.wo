@@ -23,18 +23,22 @@ Object oZoomEntrenador is a cWebView
     // Data Dictionary de entrenador
     
         Object oLiga_DD is a cligaDataDictionary
-        End_Object
-        
-        Object oEquipo_DD is a cequipoDataDictionary
-            Set DDO_Server to oLiga_DD
-        End_Object
-        
-        Object oEntrenador_DD is a centrenadorDataDictionary
-            Set DDO_Server to oEquipo_DD
-        End_Object
-        
-        Set Main_DD to oEntrenador_DD
-        Set Server to oEntrenador_DD
+End_Object
+
+Object oEquipo_DD is a cequipoDataDictionary
+    Set DDO_Server to oLiga_DD
+
+    // No validar los campos obligatorios de equipo
+    // ni los de sus tablas antecesoras al guardar un entrenador.
+    Set Validate_Foreign_File_State to False
+End_Object
+
+Object oEntrenador_DD is a centrenadorDataDictionary
+    Set DDO_Server to oEquipo_DD
+End_Object
+
+Set Main_DD to oEntrenador_DD
+Set Server to oEntrenador_DD
 
     Object oWebMainPanel is a cWebPanel
         Set piColumnCount to 12

@@ -38,34 +38,43 @@ Class cequipoDataDictionary is a DataDictionary
 Procedure Backout
     Forward Send Backout
 
-    Integer iNumEquipos
+    // Solo modificar el contador cuando se está guardando
+    // o eliminando un equipo desde su propio DDO.
+    If (Operation_Origin = Self) Begin
+        Integer iNumEquipos
 
-    Move liga.Equipos to iNumEquipos
+        Move liga.Equipos to iNumEquipos
 
-    If (iNumEquipos > 0) Begin
-        Decrement iNumEquipos
-        Move iNumEquipos to liga.Equipos
-    End
-    Else Begin
-        Send UserError "No hay equipos para quitar" "ERROR"
+        If (iNumEquipos > 0) Begin
+            Decrement iNumEquipos
+            Move iNumEquipos to liga.Equipos
+        End
+        Else Begin
+            Send UserError "No hay equipos para quitar" "ERROR"
+        End
     End
 End_Procedure
+
 
 // 2
 Procedure Update
     Forward Send Update
 
-    Integer iNumEquipos iMaxEquipos
+    // No contar como equipo una operación iniciada
+    // desde otro DDO, por ejemplo entrenador.
+    If (Operation_Origin = Self) Begin
+        Integer iNumEquipos iMaxEquipos
 
-    Move liga.Equipos to iNumEquipos
-    Move liga.EquiposMax to iMaxEquipos
+        Move liga.Equipos to iNumEquipos
+        Move liga.EquiposMax to iMaxEquipos
 
-    If (iNumEquipos < iMaxEquipos) Begin
-        Increment iNumEquipos
-        Move iNumEquipos to liga.Equipos
-    End
-    Else Begin
-        Send UserError "No hay sitio en la liga para el nuevo equipo" "ERROR"
+        If (iNumEquipos < iMaxEquipos) Begin
+            Increment iNumEquipos
+            Move iNumEquipos to liga.Equipos
+        End
+        Else Begin
+            Send UserError "No hay sitio en la liga para el nuevo equipo" "ERROR"
+        End
     End
 End_Procedure
 
