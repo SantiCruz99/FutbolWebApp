@@ -1,10 +1,13 @@
-﻿
-Use DataDict.pkg
+﻿Use DataDict.pkg
 
 Open jugador
 Open jugadorposicion
 Open equipo
 Open liga
+
+Object oNacionalidad_VT is a CodeValidationTable
+    Set Type_Value to "NACION"
+End_Object
 
 Class cjugadorDataDictionary is a DataDictionary
 
@@ -21,18 +24,21 @@ Class cjugadorDataDictionary is a DataDictionary
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
-        // Proteger la clave primaria para que no se modifique
+        // Proteger la clave primaria
         Set Key_Field_State Field jugador.ID to False
 
-        // Bloquear nombre y apellido para que no se editen ni se sobrescriban
+        // Bloquear nombre y apellido
         Set Field_Option Field jugador.Nombre DD_NOPUT to True
         Set Field_Option Field jugador.Nombre DD_NOENTER to True
         Set Field_Option Field jugador.Apellido DD_NOPUT to True
         Set Field_Option Field jugador.Apellido DD_NOENTER to True
 
-        // Marcar campos obligatorios (NOT NULL) de la tabla jugador
+        // Campos obligatorios
         Set Field_Option Field jugador.Nombre DD_REQUIRED to True
         Set Field_Option Field jugador.Apellido DD_REQUIRED to True
+
+        // Lista de nacionalidades
+        Set Field_Value_Table Field jugador.Nacionalidad to oNacionalidad_VT
 
     End_Procedure
 

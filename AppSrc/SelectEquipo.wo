@@ -1,21 +1,18 @@
-﻿Use cWebView.pkg
+﻿
+Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebList.pkg
 Use cWebColumn.pkg
 Use cequipoDataDictionary.dd
 
 Object oSelectEquipo is a cWebView
+
     Set piWidth to 800
     Set psCaption to "Seleccionar Equipo"
     Set peViewType to vtSelect
 
-    // Propiedad para filtrar por liga
     Property String psLigaID ""
-
-    // Indica si se ha abierto desde ZoomEntrenador
     Property String psModoSeleccion ""
-
-    // Guarda el RowID del equipo seleccionado
     Property String psEquipoRowId ""
 
     Object oEquipo_DD is a cequipoDataDictionary
@@ -36,7 +33,6 @@ Object oSelectEquipo is a cWebView
 
     Set Main_DD to oEquipo_DD
 
-    // Capturamos los parámetros de navegación
     Procedure OnNavigateForward tWebNavigateData NavigateData
         String sLigaID
         String sModo
@@ -68,16 +64,17 @@ Object oSelectEquipo is a cWebView
     End_Procedure
 
     Object oWebMainPanel is a cWebPanel
+
         Set piColumnCount to 12
 
         Object oEquipoList is a cWebList
+
             Set piColumnSpan to 12
             Set pbFillHeight to True
             Set Server to oEquipo_DD
             Set pbServerOnRowClick to True
             Set psCSSClass to "tabla-verde-custom"
 
-            // Ruta habitual hacia ZoomEquipo
             WebRegisterPath ntNavigateForward oZoomEquipo
 
             Object oID is a cWebColumn
@@ -98,26 +95,7 @@ Object oSelectEquipo is a cWebView
                 Set piWidth to 30
             End_Object
 
-            // Al pulsar una fila decidimos según el origen
-            Procedure OnRowClick String sRowID
-                String sModo
-
-                Get psModoSeleccion of oSelectEquipo to sModo
-
-                If (sModo = "Entrenador") Begin
-                    // Guardamos el RowID de la fila seleccionada
-                    Set psEquipoRowId of oSelectEquipo to sRowID
-
-                    // Devolvemos el equipo al ZoomEntrenador
-                    Send NavigateClose of oSelectEquipo Self
-                End
-                Else Begin
-                    // Comportamiento original: abrir ZoomEquipo
-                    Send NavigatePath
-                End
-            End_Procedure
-
-            // Pasamos el RowID a ZoomEquipo
+            // Datos para abrir ZoomEquipo
             Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
                 RowID riEquipo
                 String sRowId
@@ -131,21 +109,49 @@ Object oSelectEquipo is a cWebView
                     "EquipoRowId" sRowId to NavigateData.NamedValues
             End_Procedure
 
-            // Devolvemos el equipo elegido al ZoomEntrenador
+            Procedure OnRowClick String sRowID
+                String sModo
+
+                Get psModoSeleccion of oSelectEquipo to sModo
+
+                If (sModo = "Entrenador") Begin
+                    Set psEquipoRowId of oSelectEquipo to sRowID
+                    Send NavigateClose of oSelectEquipo Self
+                End
+                Else Begin
+                    Send NavigatePath
+                End
+            End_Procedure
+
+            // Devolver el equipo seleccionado
             Procedure OnGetNavigateBackData tWebNavigateData ByRef NavigateData Handle hoBackToView
                 String sRowId
+                String sEquipoID
+                RowID riEquipo
 
                 Forward Send OnGetNavigateBackData (&NavigateData) hoBackToView
 
                 Get psEquipoRowId of oSelectEquipo to sRowId
 
                 If (sRowId <> "") Begin
+
+                    Move (DeserializeRowId(sRowId)) to riEquipo
+
+                    Send FindByRowId of oEquipo_DD equipo.File_Number riEquipo
+
+                    Move (String(equipo.ID)) to sEquipoID
+
                     Get NamedValueAdd NavigateData.NamedValues ;
                         "EquipoRowId" sRowId to NavigateData.NamedValues
+
+                    Get NamedValueAdd NavigateData.NamedValues ;
+                        "EquipoID" sEquipoID to NavigateData.NamedValues
+
                 End
             End_Procedure
 
         End_Object
+
     End_Object
 
 End_Object
