@@ -114,7 +114,7 @@ Object oSelectEquipo is a cWebView
 
                 Get psModoSeleccion of oSelectEquipo to sModo
 
-                If (sModo = "Entrenador") Begin
+                If (sModo = "Entrenador" or sModo = "Jugador") Begin
                     Set psEquipoRowId of oSelectEquipo to sRowID
                     Send NavigateClose of oSelectEquipo Self
                 End

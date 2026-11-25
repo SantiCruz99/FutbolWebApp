@@ -1,0 +1,599 @@
+﻿
+Use cWebView.pkg
+Use cWebPanel.pkg
+Use cWebGroup.pkg
+Use cWebList.pkg
+Use cWebColumn.pkg
+Use cWebButton.pkg
+
+Use cjugadorDataDictionary.dd
+Use cequipoDataDictionary.dd
+Use cligaDataDictionary.dd
+Use cposicionDataDictionary.dd
+Use cjugadorposicionDataDictionary.dd
+
+
+Object oSelectJugadorPosicion is a cWebView
+
+    Set piWidth to 1000
+    Set psCaption to "Seleccionar posiciones"
+    Set peViewType to vtSelect
+
+    Property Integer piJugadorID 0
+    Property Integer piPosicionSeleccionada 0
+
+    // Guardar la relación seleccionada en la lista derecha
+    Property Integer piJugadorPosicionSeleccionada 0
+    Property Integer piPosicionDerechaSeleccionada 0
+
+
+    // =====================================================
+    // DATA DICTIONARIES PARA CONSULTAR LAS POSICIONES
+    // =====================================================
+
+    Object oLiga_DD is a cligaDataDictionary
+    End_Object
+
+    Object oEquipo_DD is a cequipoDataDictionary
+        Set DDO_Server to oLiga_DD
+    End_Object
+
+    Object oJugador_DD is a cjugadorDataDictionary
+        Set DDO_Server to oEquipo_DD
+    End_Object
+
+    Object oPosicion_DD is a cposicionDataDictionary
+    End_Object
+
+    // Data Dictionary independiente para mostrar todas las posiciones
+    Object oPosicionesDisponibles_DD is a cposicionDataDictionary
+    End_Object
+
+    // DDO para consultar las relaciones entre jugador y posición
+    Object oJugadorPosicion_DD is a cjugadorposicionDataDictionary
+
+        Set DDO_Server to oJugador_DD
+        Set DDO_Server to oPosicion_DD
+
+        // Limitar las asignaciones al jugador padre actual
+        Set Constrain_File to jugador.File_Number
+
+    End_Object
+
+
+    // =====================================================
+    // DATA DICTIONARIES EXCLUSIVOS PARA GUARDAR
+    // =====================================================
+
+    // Estructura independiente de Liga para el jugador de inserción
+    Object oLigaSave_DD is a cligaDataDictionary
+    End_Object
+
+    Object oEquipoSave_DD is a cequipoDataDictionary
+        Set DDO_Server to oLigaSave_DD
+    End_Object
+
+    // DDO padre del jugador para las nuevas relaciones
+    Object oJugadorSave_DD is a cjugadorDataDictionary
+        Set DDO_Server to oEquipoSave_DD
+    End_Object
+
+    // DDO padre de la posición para las nuevas relaciones
+    Object oPosicionSave_DD is a cposicionDataDictionary
+    End_Object
+
+    // DDO independiente para insertar las relaciones
+    // IMPORTANTE: necesita sus dos DDO padre
+    Object oJugadorPosicionSave_DD is a cjugadorposicionDataDictionary
+
+        Set DDO_Server to oJugadorSave_DD
+        Set DDO_Server to oPosicionSave_DD
+
+    End_Object
+
+
+    // Evitar validar los registros padre al guardar relaciones
+    Set Validate_Foreign_File_State of oJugador_DD to False
+    Set Validate_Foreign_File_State of oPosicion_DD to False
+
+    Set Validate_Foreign_File_State of oJugadorSave_DD to False
+    Set Validate_Foreign_File_State of oPosicionSave_DD to False
+
+
+    // DDO principal utilizado para consultar las relaciones
+    Set Main_DD to oJugadorPosicion_DD
+    Set Server to oJugadorPosicion_DD
+
+    // Registrar las estructuras independientes
+    Send AddDDOStructure oPosicionesDisponibles_DD
+    Send AddDDOStructure oJugadorPosicionSave_DD
+
+
+    Object oWebMainPanel is a cWebPanel
+
+        Set piColumnCount to 12
+
+        // Lista de posiciones disponibles
+        Object oDisponibles_grp is a cWebGroup
+            Set piColumnIndex to 0
+            Set piColumnSpan to 5
+            Set piColumnCount to 12
+            Set pbShowBorder to True
+            Set psCaption to "Posiciones disponibles"
+
+            Object oListaDisponibles is a cWebList
+                Set piColumnSpan to 12
+                Set piHeight to 300
+                Set pbDataAware to True
+                Set piSortColumn to 0
+                Set Server to oPosicionesDisponibles_DD
+                Set pbServerOnRowClick to True
+
+                Object oNombreDisponible is a cWebColumn
+                    Entry_Item posicion.Nombre
+                    Set psCaption to "Posición"
+                    Set piWidth to 100
+                End_Object
+
+                Procedure OnRowClick String sRowID Integer iColumnIndex
+
+                    Set piPosicionSeleccionada of oSelectJugadorPosicion to posicion.ID
+
+                    // Quitar la selección anterior de la lista derecha
+                    Set piJugadorPosicionSeleccionada of oSelectJugadorPosicion to 0
+                    Set piPosicionDerechaSeleccionada of oSelectJugadorPosicion to 0
+
+                End_Procedure
+            End_Object
+        End_Object
+
+
+        // Flechas para asignar y quitar posiciones
+        Object oBotones_grp is a cWebGroup
+            Set piColumnIndex to 5
+            Set piColumnSpan to 2
+            Set piColumnCount to 12
+            Set pbShowBorder to False
+
+            Object oEspacioSuperior is a cWebButton
+                Set piColumnSpan to 12
+                Set psCaption to ""
+                Set pbEnabled to False
+            End_Object
+
+            Object oAgregarBtn is a cWebButton
+                Set piColumnSpan to 12
+                Set psCaption to "→"
+
+                Procedure OnClick
+                    Send AgregarPosicion
+                End_Procedure
+            End_Object
+
+            Object oQuitarBtn is a cWebButton
+                Set piColumnSpan to 12
+                Set psCaption to "←"
+
+                Procedure OnClick
+                    Send QuitarPosicion
+                End_Procedure
+            End_Object
+        End_Object
+
+
+        // Lista de posiciones asignadas
+        Object oAsignadas_grp is a cWebGroup
+            Set piColumnIndex to 7
+            Set piColumnSpan to 5
+            Set piColumnCount to 12
+            Set pbShowBorder to True
+            Set psCaption to "Posiciones del jugador"
+
+            Object oListaAsignadas is a cWebList
+                Set piColumnSpan to 12
+                Set piHeight to 300
+                Set pbDataAware to True
+                Set piSortColumn to 0
+                Set Server to oJugadorPosicion_DD
+                Set pbServerOnRowClick to True
+                Set psPlaceHolder to "No hay posiciones asignadas"
+
+                Object oNombreAsignado is a cWebColumn
+                    Entry_Item posicion.Nombre
+                    Set psCaption to "Posición"
+                    Set piWidth to 100
+                End_Object
+
+                Procedure OnRowClick String sRowID Integer iColumnIndex
+
+                    // Guardar el ID de la relación seleccionada
+                    Set piJugadorPosicionSeleccionada of oSelectJugadorPosicion to jugadorposicion.ID
+
+                    // Guardar también el ID de la posición
+                    Set piPosicionDerechaSeleccionada of oSelectJugadorPosicion to jugadorposicion.PosicionID
+
+                    // Quitar la selección anterior de la lista izquierda
+                    Set piPosicionSeleccionada of oSelectJugadorPosicion to 0
+
+                End_Procedure
+            End_Object
+        End_Object
+
+
+        Object oCerrarBtn is a cWebButton
+            Set piColumnSpan to 12
+            Set psCaption to "Volver al jugador"
+
+            Procedure OnClick
+                Send NavigateClose of oSelectJugadorPosicion Self
+            End_Procedure
+        End_Object
+
+    End_Object
+
+
+    // =====================================================
+    // CARGAR POSICIONES DISPONIBLES
+    // =====================================================
+
+    Procedure CargarPosicionesDisponibles
+
+        Send FindFromTop of oListaDisponibles
+
+    End_Procedure
+
+
+    // =====================================================
+    // CARGAR POSICIONES ASIGNADAS AL JUGADOR
+    // =====================================================
+
+    Procedure CargarPosicionesAsignadas
+
+        Integer iJugadorID
+
+        Get piJugadorID to iJugadorID
+
+        If (iJugadorID > 0) Begin
+
+            // Limpiar la estructura de consulta
+            Send Clear_All of oJugadorPosicion_DD
+
+            // Recuperar el jugador padre actual
+            Move iJugadorID to jugador.ID
+            Send Find of oJugador_DD EQ 1
+
+            If (Found) Begin
+
+                // Reconstruir la relación con el jugador actual
+                Send RebuildAllConstraints of oJugadorPosicion_DD
+
+                // Mostrar las relaciones de este jugador
+                Send FindFromTop of oListaAsignadas
+
+            End
+
+        End
+
+    End_Procedure
+
+
+    // =====================================================
+    // AÑADIR UNA POSICIÓN AL JUGADOR
+    // =====================================================
+
+    Procedure AgregarPosicion
+
+        Integer iJugadorID
+        Integer iPosicionID
+        Boolean bEncontrada
+        Boolean bDuplicada
+        Boolean bError
+        Boolean bTieneRegistro
+
+        Get piJugadorID to iJugadorID
+        Get piPosicionSeleccionada to iPosicionID
+
+        If (iJugadorID <= 0) Begin
+            Send UserError "No se ha seleccionado un jugador válido" "ERROR"
+            Procedure_Return
+        End
+
+        If (iPosicionID <= 0) Begin
+            Send UserError "Selecciona primero una posición de la lista izquierda" "AVISO"
+            Procedure_Return
+        End
+
+
+        // PASO 1: Comprobar que el jugador existe
+        Send Clear_All of oJugadorPosicion_DD
+
+        Move iJugadorID to jugador.ID
+        Send Find of oJugador_DD EQ 1
+
+        If (not(Found)) Begin
+            Send UserError "No se ha encontrado el jugador" "ERROR"
+            Procedure_Return
+        End
+
+
+        // PASO 2: Reconstruir la relación del jugador actual
+        Send RebuildAllConstraints of oJugadorPosicion_DD
+
+
+        // PASO 3: Comprobar si la posición ya está asignada
+        Move False to bDuplicada
+
+        // El índice 2 comienza por JugadorID
+        Send Find of oJugadorPosicion_DD FIRST_RECORD 2
+
+        Move Found to bEncontrada
+
+        While (bEncontrada and (not(bDuplicada)))
+
+            If ((jugadorposicion.JugadorID = iJugadorID) and ;
+                (jugadorposicion.PosicionID = iPosicionID)) Begin
+
+                Move True to bDuplicada
+
+            End
+            Else Begin
+
+                Send Find of oJugadorPosicion_DD NEXT_RECORD 2
+                Move Found to bEncontrada
+
+            End
+
+        Loop
+
+        If (bDuplicada) Begin
+            Send UserError "Posicion ya asignada" "ERROR"
+            Procedure_Return
+        End
+
+
+        // PASO 4: Preparar la estructura independiente de inserción
+        // Limpiar todos sus DDO, incluidos sus padres
+        Send Clear_All of oJugadorPosicionSave_DD
+
+        // Comprobar que el registro de relación es nuevo
+        Get HasRecord of oJugadorPosicionSave_DD to bTieneRegistro
+
+        If (bTieneRegistro) Begin
+            Send UserError "No se ha podido preparar un registro nuevo" "ERROR"
+            Procedure_Return
+        End
+
+
+        // PASO 5: Recuperar el jugador en la estructura de inserción
+        Move iJugadorID to jugador.ID
+        Send Find of oJugadorSave_DD EQ 1
+
+        If (not(Found)) Begin
+            Send UserError "No se ha encontrado el jugador para guardar la relación" "ERROR"
+            Procedure_Return
+        End
+
+
+        // PASO 6: Recuperar la posición en la estructura de inserción
+        Move iPosicionID to posicion.ID
+        Send Find of oPosicionSave_DD EQ 1
+
+        If (not(Found)) Begin
+            Send UserError "No se ha encontrado la posición para guardar la relación" "ERROR"
+            Procedure_Return
+        End
+
+
+        // PASO 7: Asignar los campos de la nueva relación
+        // El ID se genera automáticamente en MySQL
+
+        Set Field_Changed_Value of oJugadorPosicionSave_DD ;
+            Field jugadorposicion.JugadorID to iJugadorID
+
+        Set Field_Changed_Value of oJugadorPosicionSave_DD ;
+            Field jugadorposicion.PosicionID to iPosicionID
+
+
+        // PASO 8: Comprobar que el DDO sigue siendo nuevo
+        Get HasRecord of oJugadorPosicionSave_DD to bTieneRegistro
+
+        If (bTieneRegistro) Begin
+            Send UserError "El DDO de inserción contiene un registro anterior. Se cancela el guardado." "ERROR"
+            Procedure_Return
+        End
+
+
+        // PASO 9: Validar los campos obligatorios
+        Get Request_Validate of oJugadorPosicionSave_DD to bError
+
+        If (bError) Begin
+            Send UserError "No se pueden validar JugadorID y PosicionID" "ERROR"
+            Procedure_Return
+        End
+
+
+        // PASO 10: Insertar una NUEVA fila en MySQL
+        Send Request_Save of oJugadorPosicionSave_DD
+
+        Move (Err) to bError
+
+        If (bError) Begin
+            Send UserError "No se pudo insertar la nueva posición del jugador" "ERROR"
+            Procedure_Return
+        End
+
+
+        // Limpiar las selecciones
+        Set piPosicionSeleccionada to 0
+        Set piJugadorPosicionSeleccionada to 0
+        Set piPosicionDerechaSeleccionada to 0
+
+
+        // Actualizar las posiciones asignadas
+        Send CargarPosicionesAsignadas
+
+        // Mantener visible la lista completa de posiciones
+        Send CargarPosicionesDisponibles
+
+    End_Procedure
+
+
+    // =====================================================
+    // QUITAR UNA POSICIÓN DEL JUGADOR
+    // =====================================================
+
+    Procedure QuitarPosicion
+
+        Integer iJugadorID
+        Integer iRelacionID
+        Integer iPosicionID
+        Boolean bError
+
+        Get piJugadorID to iJugadorID
+        Get piJugadorPosicionSeleccionada to iRelacionID
+        Get piPosicionDerechaSeleccionada to iPosicionID
+
+        // Comprobar que se ha seleccionado una asignación en la derecha
+        If (iRelacionID <= 0) Begin
+            Send UserError "Selecciona primero la posición que deseas quitar en la lista derecha" "AVISO"
+            Procedure_Return
+        End
+
+        If (iJugadorID <= 0) Begin
+            Send UserError "No se ha seleccionado un jugador válido" "ERROR"
+            Procedure_Return
+        End
+
+
+        // Recuperar el jugador padre actual
+        Send Clear_All of oJugadorPosicion_DD
+
+        Move iJugadorID to jugador.ID
+        Send Find of oJugador_DD EQ 1
+
+        If (not(Found)) Begin
+            Send UserError "No se ha encontrado el jugador" "ERROR"
+            Procedure_Return
+        End
+
+
+        // Reconstruir el filtro correspondiente al jugador actual
+        Send RebuildAllConstraints of oJugadorPosicion_DD
+
+
+        // Recuperar solamente la relación seleccionada
+        Move iRelacionID to jugadorposicion.ID
+        Send Find of oJugadorPosicion_DD EQ 1
+
+        If (not(Found)) Begin
+            Send UserError "La asignación seleccionada ya no existe para este jugador" "ERROR"
+            Procedure_Return
+        End
+
+
+        // Comprobar que la relación pertenece al jugador actual
+        If (jugadorposicion.JugadorID <> iJugadorID) Begin
+            Send UserError "La posición seleccionada no pertenece a este jugador" "ERROR"
+            Procedure_Return
+        End
+
+        If (jugadorposicion.PosicionID <> iPosicionID) Begin
+            Send UserError "La asignación seleccionada ha cambiado. Vuelve a seleccionarla" "ERROR"
+            Procedure_Return
+        End
+
+
+        // Eliminar únicamente la relación jugador-posicion seleccionada
+        Send Request_Delete of oJugadorPosicion_DD
+
+        Move (Err) to bError
+
+        If (bError) Begin
+            Send UserError "No se pudo quitar la posición del jugador" "ERROR"
+            Procedure_Return
+        End
+
+
+        // Limpiar las selecciones
+        Set piJugadorPosicionSeleccionada to 0
+        Set piPosicionDerechaSeleccionada to 0
+        Set piPosicionSeleccionada to 0
+
+
+        // Actualizar las posiciones asignadas
+        Send CargarPosicionesAsignadas
+
+        // Mantener la lista izquierda completa
+        Send CargarPosicionesDisponibles
+
+    End_Procedure
+
+
+    // =====================================================
+    // INICIALIZAR LA VISTA
+    // =====================================================
+
+    Procedure OnLoad
+
+        Forward Send OnLoad
+
+        Send CargarPosicionesDisponibles
+
+    End_Procedure
+
+
+    // =====================================================
+    // RECUPERAR EL JUGADOR SELECCIONADO
+    // =====================================================
+
+    Procedure OnNavigateForward tWebNavigateData NavigateData
+
+        String sJugadorID
+        Integer iJugadorID
+
+        Forward Send OnNavigateForward NavigateData
+
+        Get NamedValueGet NavigateData.NamedValues ;
+            "JugadorID" to sJugadorID
+
+        Move (Integer(sJugadorID)) to iJugadorID
+
+        Set piJugadorID to iJugadorID
+        Set piPosicionSeleccionada to 0
+        Set piJugadorPosicionSeleccionada to 0
+        Set piPosicionDerechaSeleccionada to 0
+
+
+        If (iJugadorID > 0) Begin
+
+            // Limpiar la estructura de consulta
+            Send Clear_All of oJugadorPosicion_DD
+
+            // Recuperar el jugador padre
+            Move iJugadorID to jugador.ID
+            Send Find of oJugador_DD EQ 1
+
+            If (not(Found)) Begin
+                Send UserError "No se ha encontrado el jugador seleccionado" "ERROR"
+            End
+            Else Begin
+
+                // Reconstruir la relación con el jugador actual
+                Send RebuildAllConstraints of oJugadorPosicion_DD
+
+                // Cargar todas las posiciones de la tabla posicion
+                Send CargarPosicionesDisponibles
+
+                // Cargar solamente las posiciones asignadas a este jugador
+                Send CargarPosicionesAsignadas
+
+            End
+
+        End
+        Else Begin
+            Send UserError "No se ha recibido el identificador del jugador" "ERROR"
+        End
+
+    End_Procedure
+
+End_Object

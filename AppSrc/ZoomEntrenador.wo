@@ -1,6 +1,4 @@
-﻿
-
-Use cWebView.pkg
+﻿Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebForm.pkg
 Use cWebGroup.pkg
@@ -77,7 +75,7 @@ Set Server to oEntrenador_DD
             Set psCSSClass to "verde-card-group"
 
             Object oEquipoNombre is a cWebForm
-                Entry_Item entrenador.EquipoID
+                Entry_Item equipo.Nombre
                 Set piColumnSpan to 9
                 Set piColumnIndex to 0
                 Set peLabelPosition to lpTop
@@ -117,8 +115,20 @@ Set Server to oEntrenador_DD
 
                             Set Field_Changed_Value of oEntrenador_DD ;
                                 Field entrenador.EquipoID to iEquipoID
+                            
+                            Move iEquipoID to equipo.ID
+                            Send Find of oEquipo_DD EQ 1
 
-                            Send Request_Assign of oEntrenador_DD
+                            If (Found) Begin
+                                
+                            // Asignar el equipo al entrenador
+                Set Field_Changed_Value of oEntrenador_DD ;
+                    Field entrenador.EquipoID to iEquipoID
+
+            End
+            Else Begin
+                Send UserError "No se ha encontrado el equipo seleccionado" "ERROR"
+            End
                         End
                     End
                 End_Procedure
