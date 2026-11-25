@@ -1,6 +1,4 @@
-﻿
-
-Use cWebView.pkg
+﻿Use cWebView.pkg
 Use cWebPanel.pkg
 Use cWebForm.pkg
 Use cWebGroup.pkg
@@ -77,7 +75,7 @@ Set Server to oEntrenador_DD
             Set psCSSClass to "verde-card-group"
 
             Object oEquipoNombre is a cWebForm
-                Entry_Item entrenador.EquipoID
+                Entry_Item equipo.Nombre
                 Set piColumnSpan to 9
                 Set piColumnIndex to 0
                 Set peLabelPosition to lpTop

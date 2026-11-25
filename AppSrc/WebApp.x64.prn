@@ -1,5 +1,5 @@
 Compiling Program: C:\DataFlex Projects\FutbolWebApp\AppSrc\WebApp.src
-Memory Available: 8540778496
+Memory Available: 9505804288
 1>Use AllWebAppClasses.pkg
 Using pre-compiled package ALLWEBAPPCLASSES.PKG
 Including file: AllWebAppClasses.x64.pkd    (C:\Program Files\DataFlex 25.0\Pkg\AllWebAppClasses.x64.pkd)
@@ -1605,8 +1605,6 @@ Including file: Dashboard.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\Dashbo
 37570>
 37570>    Use ZoomEntrenador.wo
 Including file: ZoomEntrenador.wo    (C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomEntrenador.wo)
-37570>>>
-37570>>>
 37570>>>Use cWebView.pkg
 37570>>>Use cWebPanel.pkg
 37570>>>Use cWebForm.pkg
@@ -1870,7 +1868,7 @@ Including file: cligaDataDictionary.dd    (C:\DataFlex Projects\FutbolWebApp\DDS
 37747>>>            Set psCSSClass to "verde-card-group"
 37748>>>
 37748>>>            Object oEquipoNombre is a cWebForm
-37750>>>                Entry_Item entrenador.EquipoID
+37750>>>                Entry_Item equipo.Nombre
 37751>>>                Set piColumnSpan to 9
 37752>>>                Set piColumnIndex to 0
 37753>>>                Set peLabelPosition to lpTop
@@ -3999,7 +3997,7 @@ Including file: SelectJugadorPosicion.wo    (C:\DataFlex Projects\FutbolWebApp\A
 39339>Send StartWebApp of oWebApp
 39340>
 Summary
-Memory Available: 8526303232
+Memory Available: 9500966912
 Total Warnings : 0
 Total Errors   : 0
 Total Symbols  : 25676
