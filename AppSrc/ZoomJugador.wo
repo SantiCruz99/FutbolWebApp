@@ -8,12 +8,21 @@ Use cjugadorDataDictionary.dd
 Use cequipoDataDictionary.dd
 Use cligaDataDictionary.dd
 Use cWebCombo.pkg
+Use cWebList.pkg
+Use cWebColumn.pkg
+Use cWebButton.pkg
+Use cposicionDataDictionary.dd
+Use cjugadorposicionDataDictionary.dd
 
 Object oZoomJugador is a cWebView
+
     Set piWidth to 700
     Set psCaption to "Jugador"
     Set peViewType to vtZoom
     Set piMaxWidth to 1024
+    
+
+    Property Integer piJugadorID 0
 
     // Data Dictionaries relacionados en cascada: Liga <- Equipo <- Jugador
     Object oLiga_DD is a cligaDataDictionary
@@ -27,20 +36,47 @@ Object oZoomJugador is a cWebView
         Set DDO_Server to oEquipo_DD
     End_Object
 
+    Object oPosicion_DD is a cposicionDataDictionary
+    End_Object
+
+    // Data Dictionary de las posiciones asignadas al jugador
+    Object oJugadorPosicion_DD is a cjugadorposicionDataDictionary
+        Set DDO_Server to oJugador_DD
+        Set DDO_Server to oPosicion_DD
+        Set Constrain_File to jugador.File_Number
+
+        Procedure Constrain
+            Forward Send Constrain
+
+            Integer iJugadorID
+
+            Get piJugadorID of oZoomJugador to iJugadorID
+
+            If (iJugadorID > 0) Begin
+                Constrain jugadorposicion.JugadorID eq iJugadorID
+            End
+        End_Procedure
+    End_Object
+
+    // Evitar validar las tablas padre al trabajar con las asignaciones
+    Set Validate_Foreign_File_State of oJugador_DD to False
+
     // Asignación obligatoria para que la vista enlace los datos con los formularios
     Set Main_DD to oJugador_DD
     Set Server to oJugador_DD
 
     // Panel principal con los campos del formulario
     Object oWebMainPanel is a cWebPanel
+
         Set piColumnCount to 12
-        WebSetResponsive piColumnCount rmMobile to 4
+        WebSetResponsive piColumnCount rmMobile to 12
 
         // Grupo de datos personales
         Object odatos_grp is a cWebGroup
             Set piColumnSpan to 12
-            Set pbShowBorder to True
             Set piColumnCount to 12
+            Set pbShowBorder to True
+            Set psCaption to "Datos personales"
             Set psCSSClass to "verde-card-group"
 
             Object oNombre is a cWebForm
@@ -59,45 +95,183 @@ Object oZoomJugador is a cWebView
                 Set psLabel to "Apellido:"
             End_Object
         End_Object
-
+        
+        
         // Grupo de equipo
         Object oEquipoInfo_grp is a cWebGroup
-            Set piColumnIndex to 0
-            Set piColumnCount to 6
-            Set piColumnSpan to 6
+            Set piColumnSpan to 5
+            Set piColumnCount to 5
             Set pbShowBorder to True
             Set psCSSClass to "verde-card-group"
-
+            WebSetResponsive piColumnSpan rmMobile to 5
+            
             Object oEquipoNombre is a cWebForm
                 Entry_Item equipo.Nombre
-                Set piColumnSpan to 6
-                Set piColumnIndex to 0
+                Set piColumnSpan to 4
                 Set peLabelPosition to lpTop
                 Set psLabel to "Equipo:"
             End_Object
-        End_Object
+            
+             Object oBuscarEquipoBtn is a cWebButton
+        Set psCaption to "🔍"
+        Set piColumnSpan to 1
+        Set piColumnIndex to 4
 
+        WebRegisterPath ntNavigateForward oSelectEquipo
+
+        Procedure OnClick
+            Send NavigateForward of oSelectEquipo Self
+        End_Procedure
+
+        Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+            Forward Send OnGetNavigateForwardData (&NavigateData) hoToView
+
+            Get NamedValueAdd NavigateData.NamedValues ;
+                "ModoSeleccion" "Jugador" to NavigateData.NamedValues
+        End_Procedure
+
+        Procedure OnNavigateBack Handle hoCallback tWebNavigateData NavigateData
+            String sEquipoID
+            Integer iEquipoID
+
+            Get NamedValueGet NavigateData.NamedValues ;
+                "EquipoID" to sEquipoID
+
+            If (sEquipoID <> "") Begin
+                Move (Integer(sEquipoID)) to iEquipoID
+
+                If (iEquipoID > 0) Begin
+                    Send ChangeEditMode of oZoomJugador True
+
+                // Asignar inicialmente el ID del equipo al jugador
+                Set Field_Changed_Value of oJugador_DD ;
+                Field jugador.EquipoID to iEquipoID
+                
+                    Move iEquipoID to equipo.ID
+                    Send Find of oEquipo_DD EQ 1
+
+                    If (Found) Begin
+
+                        // Asignar el equipo al jugador
+                        Set Field_Changed_Value of oJugador_DD ;
+                            Field jugador.EquipoID to iEquipoID
+
+                      
+
+                    End
+                    Else Begin
+                        Send UserError "No se ha encontrado el equipo seleccionado" "ERROR"
+                    End
+                End
+            End
+        End_Procedure
+    End_Object
+        End_Object
+        
+      
+        
         // Grupo de nacionalidad
         Object oNacionalidad_grp is a cWebGroup
+            Set piColumnSpan to 5
+            Set piColumnCount to 5
             Set piColumnIndex to 6
-            Set piColumnSpan to 6
-            Set piColumnCount to 6
             Set pbShowBorder to True
             Set psCSSClass to "verde-card-group"
-
-           Object oNacionalidad is a cWebCombo
+            WebSetResponsive piColumnSpan rmMobile to 5
+        
+            Object oNacionalidad is a cWebCombo
                 Entry_Item jugador.Nacionalidad
-                Set piColumnSpan to 6
+                Set piColumnSpan to 5
                 Set peLabelPosition to lpTop
                 Set psLabel to "Nacionalidad:"
+            End_Object
+        End_Object
+        
+
+        // Grupo de posiciones del jugador
+        Object oPosiciones_grp is a cWebGroup
+            Set piColumnIndex to 0
+            Set piColumnSpan to 12
+            Set piColumnCount to 12
+            Set pbShowBorder to True
+            Set psCaption to "Posiciones"
+            Set psCSSClass to "verde-card-group"
+
+            Object oPosicionesJugadorList is a cWebList
+                Set piColumnSpan to 12
+                Set piHeight to 180
+                Set pbDataAware to True
+                Set piSortColumn to 0
+                Set Server to oJugadorPosicion_DD
+
+                Object oPosicionNombre is a cWebColumn
+                    Entry_Item posicion.Nombre
+                    Set psCaption to "Posición"
+                    Set piWidth to 100
+                End_Object
+            End_Object
+
+            // Este botón solo aparecerá al entrar en modo edición
+            Object oEditarPosicionesBtn is a cWebButton
+                Set piColumnSpan to 12
+                Set psCaption to "Editar posiciones"
+                Set pbRender to False
+
+                WebRegisterPath ntNavigateForward oSelectJugadorPosicion
+
+                Procedure OnClick
+                    Integer iJugadorID
+
+                    Move jugador.ID to iJugadorID
+
+                    If (iJugadorID > 0) Begin
+                        Send NavigateForward of oSelectJugadorPosicion Self
+                    End
+                    Else Begin
+                        Send UserError "Primero debes guardar el jugador para poder asignarle posiciones" "AVISO"
+                    End
+                End_Procedure
+
+                Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+
+                    Integer iJugadorID
+
+                    Forward Send OnGetNavigateForwardData (&NavigateData) hoToView
+
+                    Move jugador.ID to iJugadorID
+
+                    Get NamedValueAdd NavigateData.NamedValues ;
+                        "JugadorID" (String(iJugadorID)) to NavigateData.NamedValues
+
+                End_Procedure
+
+                Procedure OnNavigateBack Handle hoCallback tWebNavigateData NavigateData
+
+                    Send CargarPosicionesJugador of oZoomJugador
+
+                End_Procedure
             End_Object
         End_Object
 
     End_Object
 
+    // Cargar las posiciones del jugador actual
+    Procedure CargarPosicionesJugador
+
+        Integer iJugadorID
+
+        Move jugador.ID to iJugadorID
+        Set piJugadorID to iJugadorID
+
+        Send RebuildAllConstraints of oJugadorPosicion_DD
+        Send FindFromTop of oPosicionesJugadorList
+
+    End_Procedure
+
     // Menú de acciones
     Object oActionGroup is a cWebMenuGroup
 
+        // Botón guardar
         Object oSaveBtn is a cWebMenuItem
             Set psCSSClass to "WebSaveMenuItem"
             Set psCaption to "Save"
@@ -107,7 +281,16 @@ Object oZoomJugador is a cWebView
             End_Procedure
         End_Object
 
-        
+        // Botón editar
+        Object oEditBtn is a cWebMenuItem
+            Set psCSSClass to "WebEditMenuItem"
+            Set psCaption to "Edit"
+
+            Procedure OnClick
+                Send ChangeEditMode True
+                Send SetActionButtons of oZoomJugador
+            End_Procedure
+        End_Object
 
         Object oDeleteBtn is a cWebMenuItem
             Set psCSSClass to "WebDeleteMenuItem"
@@ -132,38 +315,76 @@ Object oZoomJugador is a cWebView
 
     End_Object
 
+    // Mostrar los botones correspondientes al modo de la vista
     Procedure SetActionButtons
-    WebSet pbRender of oSaveBtn to True
-    WebSet pbRender of oCancelChangesBtn to False
-    WebSet pbRender of oDeleteBtn to False
-End_Procedure
+
+        Boolean bReadOnly
+
+        Get IsViewReadOnly to bReadOnly
+
+        WebSet pbRender of oEditBtn to bReadOnly
+        WebSet pbRender of oSaveBtn to (not(bReadOnly))
+
+        WebSet pbRender of oEditarPosicionesBtn to (not(bReadOnly))
+
+        WebSet pbRender of oCancelChangesBtn to False
+        WebSet pbRender of oDeleteBtn to False
+
+    End_Procedure
+
+    // Actualizar la visibilidad de los botones cuando cambia el modo de la vista
+    Procedure OnSyncView
+
+        Forward Send OnSyncView
+        Send SetActionButtons
+
+    End_Procedure
 
     // Capturamos el ID del jugador seleccionado y cargamos sus datos en el Zoom
     Procedure OnNavigateForward tWebNavigateData NavigateData
+
         String sRowId
         RowID riJugador
 
         Forward Send OnNavigateForward NavigateData
 
         Get NamedValueGet NavigateData.NamedValues "JugadorRowId" to sRowId
+
         If (sRowId <> "") Begin
+
             Move (DeserializeRowId(sRowId)) to riJugador
+
             Send FindByRowId of oJugador_DD jugador.File_Number riJugador
             Send Request_Assign of oJugador_DD
+
         End
 
-        Send ChangeEditMode True
+        // Guardar el ID del jugador actual
+        Set piJugadorID to jugador.ID
+
+        // Abrir inicialmente en modo consulta
+        Send ChangeEditMode False
+
+        // Cargar las posiciones correspondientes al jugador
+        Send CargarPosicionesJugador
+
         Send SetActionButtons
+
     End_Procedure
 
     // Cierra la vista automáticamente al guardar
     Procedure OnViewSaved Handle hoServer Boolean bChanged
+
         Send NavigateClose Self
+
     End_Procedure
 
     // Cierra la vista automáticamente al eliminar
     Procedure OnViewDeleted Handle hoDDO
+
         Send NavigateClose Self
+
     End_Procedure
 
 End_Object
+

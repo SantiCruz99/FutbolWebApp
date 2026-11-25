@@ -30,7 +30,7 @@ Class cequipoDataDictionary is a DataDictionary
         Set Field_Option Field equipo.Nombre DD_NOENTER to True
 
         // Marcar campos obligatorios (NOT NULL) de la tabla equipo
-        Set Field_Option Field equipo.Nombre DD_REQUIRED to True
+        Set Field_Option Field equipo.Nombre DD_REQUIRED to False
         Set Field_Option Field equipo.LigaID DD_REQUIRED to True
 
     End_Procedure

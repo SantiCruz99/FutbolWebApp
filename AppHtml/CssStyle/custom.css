@@ -7,11 +7,15 @@ body, .WebAppDesigner, .cWebApp {
 .cWebForm .WebInputControl, 
 .cWebForm input, 
 .cWebForm textarea, 
-.cWebGroup {
+.cWebGroup > .WebCon_Inner {
     border-radius: 8px !important;
     border: 1px solid #6ce4b2 !important;
 }
 
+/* Asegura que ningún grupo se pase del 50% de ancho */
+.cWebGroup, .verde-card-group {
+    box-sizing: border-box !important;
+}
 /* Títulos de las vistas (Zoom) más grandes, en negrita y en tono verde oscuro */
 .WebModalHeader .WebCaption, 
 .cWebView .WebCaption, 
@@ -22,11 +26,12 @@ body, .WebAppDesigner, .cWebApp {
 }
 
 /* Estilo para las tarjetas con la clase verde-card-group */
-.verde-card-group {
+.verde-card-group > .WebCon_Inner {
     background-color: #6ce4b2 !important;
     border-radius: 10px !important;
     border: 1px solid #42e0ab !important;
     padding: 10px !important;
+    box-sizing: border-box !important;
 }
 
 /* Barra superior de navegación (Header / Breadcrumbs) */
